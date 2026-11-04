@@ -51,9 +51,19 @@ Held-out half of HumanEval (82 problems, official hidden tests). Hardware: i9-14
 | Model | Strategy | pass@1 | avg calls | avg output tokens |
 |---|---|---|---|---|
 | qwen3-coder:30b | direct | 92.7% | 1.0 | 186 |
-| qwen3-coder:30b | adaptive | *running* | | |
+| qwen3-coder:30b | adaptive | 93.9% | 3.4 | 1210 |
 
-ExPO sweep on Qwen2.5-Coder-1.5B: *running*.
+**qwen3-coder:30b:**
+- **Result:** adaptive solves one more problem (HumanEval/127) and breaks none, at about 6.5x the tokens
+  and 7.6x the latency. That is within noise. It matches the finding that strong Qwen3-Coder models
+  barely gain from self-repair ([doi 10.3390/ai7090353](https://doi.org/10.3390/ai7090353)).
+- **Remaining failures:** all 5 are wrong answers whose model-written tests share the model's
+  misunderstanding, so verification never triggers escalation. That is the main limit of self-generated
+  tests.
+- **Takeaway:** for a model this strong, use `direct`. The enhancements are aimed at smaller models.
+- **Full diff:** `results/compare__qwen3-coder_30b__direct__test__vs__qwen3-coder_30b__adaptive__test.md`.
+
+ExPO sweeps on Qwen2.5-Coder 0.5B / 1.5B / 7B (phone-sized at 4-bit for 0.5B and 1.5B): *running*.
 
 Results in `results/` are raw JSONL, one row per problem, so every number can be re-checked.
 

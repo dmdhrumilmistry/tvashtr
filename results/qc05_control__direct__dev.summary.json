@@ -1,0 +1,10 @@
+{
+  "model": "qc05:control",
+  "strategy": "direct",
+  "part": "dev",
+  "n": 82,
+  "pass@1": 0.5366,
+  "avg_calls": 1.0,
+  "avg_output_tokens": 370,
+  "avg_seconds": 9.2
+}
