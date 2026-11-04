@@ -1,0 +1,10 @@
+{
+  "model": "qc05:control-q4km",
+  "strategy": "direct",
+  "part": "test",
+  "n": 82,
+  "pass@1": 0.4634,
+  "avg_calls": 1.0,
+  "avg_output_tokens": 299,
+  "avg_seconds": 2.9
+}

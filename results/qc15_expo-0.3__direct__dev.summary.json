@@ -3,7 +3,7 @@
   "strategy": "direct",
   "part": "dev",
   "n": 82,
-  "pass@1": 0.6707,
+  "pass@1": 0.6829,
   "avg_calls": 1.0,
   "avg_output_tokens": 157,
   "avg_seconds": 14.2

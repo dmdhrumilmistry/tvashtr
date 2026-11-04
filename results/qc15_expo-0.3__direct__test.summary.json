@@ -1,0 +1,10 @@
+{
+  "model": "qc15:expo-0.3",
+  "strategy": "direct",
+  "part": "test",
+  "n": 82,
+  "pass@1": 0.7317,
+  "avg_calls": 1.0,
+  "avg_output_tokens": 147,
+  "avg_seconds": 1.7
+}

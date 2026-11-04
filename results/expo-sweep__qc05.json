@@ -1,0 +1,61 @@
+{
+  "base": "qwen2.5-coder:0.5b-base-fp16",
+  "instruct": "qwen2.5-coder:0.5b-instruct-fp16",
+  "quantize": null,
+  "dev": {
+    "control": {
+      "model": "qc05:control",
+      "strategy": "direct",
+      "part": "dev",
+      "n": 82,
+      "pass@1": 0.5366,
+      "avg_calls": 1.0,
+      "avg_output_tokens": 370,
+      "avg_seconds": 9.2
+    },
+    "expo-0.1": {
+      "model": "qc05:expo-0.1",
+      "strategy": "direct",
+      "part": "dev",
+      "n": 82,
+      "pass@1": 0.4146,
+      "avg_calls": 1.0,
+      "avg_output_tokens": 424,
+      "avg_seconds": 19.3
+    },
+    "expo-0.3": {
+      "model": "qc05:expo-0.3",
+      "strategy": "direct",
+      "part": "dev",
+      "n": 82,
+      "pass@1": 0.0122,
+      "avg_calls": 0.65,
+      "avg_output_tokens": 687,
+      "avg_seconds": 14.0
+    },
+    "expo-0.5": {
+      "model": "qc05:expo-0.5",
+      "strategy": "direct",
+      "part": "dev",
+      "n": 82,
+      "pass@1": 0.0,
+      "avg_calls": 1.0,
+      "avg_output_tokens": 307,
+      "avg_seconds": 1.6
+    }
+  },
+  "test": {
+    "control": {
+      "model": "qc05:control",
+      "strategy": "direct",
+      "part": "test",
+      "n": 82,
+      "pass@1": 0.5,
+      "avg_calls": 1.0,
+      "avg_output_tokens": 302,
+      "avg_seconds": 1.6
+    }
+  },
+  "best_on_dev": "control",
+  "test_gain_vs_control": 0.0
+}

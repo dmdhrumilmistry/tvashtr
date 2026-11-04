@@ -1,0 +1,36 @@
+{
+  "base": "qwen2.5-coder:0.5b-base-fp16",
+  "instruct": "qwen2.5-coder:0.5b-instruct-fp16",
+  "quantize": "q4_K_M",
+  "alpha": null,
+  "runs": {
+    "control": {
+      "dev": {
+        "model": "qc05:control-q4km",
+        "strategy": "direct",
+        "part": "dev",
+        "n": 82,
+        "pass@1": 0.5488,
+        "avg_calls": 1.0,
+        "avg_output_tokens": 393,
+        "avg_seconds": 3.7
+      },
+      "test": {
+        "model": "qc05:control-q4km",
+        "strategy": "direct",
+        "part": "test",
+        "n": 82,
+        "pass@1": 0.4634,
+        "avg_calls": 1.0,
+        "avg_output_tokens": 299,
+        "avg_seconds": 2.9
+      }
+    }
+  },
+  "files": {
+    "control": {
+      "path": "D:\\models\\mobile\\qc05-control-q4km.gguf",
+      "MB": 948
+    }
+  }
+}

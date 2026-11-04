@@ -70,6 +70,9 @@ def main():
     dc.add_argument("--export", help="directory to copy the quantized GGUFs into (for mobile apps)")
     dc.add_argument("--limit", type=int)
 
+    rs = sub.add_parser("rescore", help="re-score saved results/*.jsonl from stored output after a harness fix")
+    rs.add_argument("paths", nargs="+")
+
     c = sub.add_parser("compare", help="per-problem diff of two results/*.jsonl runs (A = baseline)")
     c.add_argument("a")
     c.add_argument("b")
@@ -116,6 +119,9 @@ def main():
         from . import sweep
         print(json.dumps(sweep.deploy_check(a.base, a.instruct, a.prefix, a.alpha or None, a.quantize,
                                             a.workdir, a.export, a.limit), indent=2))
+    elif a.cmd == "rescore":
+        from . import rescore
+        rescore.rescore(a.paths)
     elif a.cmd == "compare":
         from . import compare
         print(compare.compare(a.a, a.b, a.out))

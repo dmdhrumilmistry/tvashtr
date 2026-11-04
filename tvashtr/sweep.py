@@ -7,14 +7,16 @@ from pathlib import Path
 from . import bench, weights
 
 
-def _create(gguf, name, template_from, quantize, workdir):
+def _create(gguf, name, template_from, quantize, workdir, allow_unquantized=False):
+    """Create the model; never silently ship a different quantization than the one being measured."""
     try:
         weights.ollama_create_gguf(gguf, name, template_from, quantize, modelfile_dir=workdir)
         return quantize
     except subprocess.CalledProcessError:
-        if not quantize:
-            raise
-        print(f"ollama could not quantize to {quantize}; registering unquantized")
+        if not quantize or not allow_unquantized:
+            raise SystemExit(f"ollama create --quantize {quantize} failed for {name}; "
+                             f"refusing to measure an unquantized model under a quantized name")
+        print(f"ollama could not quantize to {quantize}; registering unquantized (allowed for sweeps)")
         weights.ollama_create_gguf(gguf, name, template_from, None, modelfile_dir=workdir)
         return None
 
@@ -27,7 +29,7 @@ def sweep(base, instruct, alphas, prefix, quantize="q8_0", workdir="models", lim
     report = {"base": base, "instruct": instruct, "quantize": quantize, "dev": {}, "test": {}}
 
     control = f"{prefix}:control"
-    report["quantize"] = _create(blob_i, control, instruct, quantize, work)
+    report["quantize"] = _create(blob_i, control, instruct, quantize, work, allow_unquantized=True)
     report["dev"]["control"] = bench.run(control, "direct", "dev", limit, workers)
     print(json.dumps(report["dev"]["control"]))
 

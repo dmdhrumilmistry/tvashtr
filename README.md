@@ -63,7 +63,35 @@ Held-out half of HumanEval (82 problems, official hidden tests). Hardware: i9-14
 - **Takeaway:** for a model this strong, use `direct`. The enhancements are aimed at smaller models.
 - **Full diff:** `results/compare__qwen3-coder_30b__direct__test__vs__qwen3-coder_30b__adaptive__test.md`.
 
-ExPO sweeps on Qwen2.5-Coder 0.5B / 1.5B / 7B (phone-sized at 4-bit for 0.5B and 1.5B): *running*.
+### ExPO weight updates (direct decoding, problems passed out of 82)
+
+Base->instruct extrapolation, `theta = instruct + alpha * (instruct - base)`, applied to Ollama's fp16
+GGUFs. The control is the same instruct GGUF registered the same way.
+
+| Model | Split | control | alpha 0.1 | alpha 0.3 | alpha 0.5 |
+|---|---|---|---|---|---|
+| Qwen2.5-Coder-0.5B | dev | **44** | 34 | 1 | 0 |
+| Qwen2.5-Coder-0.5B | test | **41** | | | |
+| Qwen2.5-Coder-1.5B | dev | 59 | **60** | 56 | 56 |
+| Qwen2.5-Coder-1.5B | test | 58 | | 60 | |
+
+**What we learned:**
+- **0.5B:** ExPO hurts. Alpha 0.1 gains 9 problems but loses 19, mostly by producing more wrong answers,
+  and alpha 0.3 or above destroys the model. Keep the original.
+- **1.5B:** ExPO is noise. The best variant moves 1-2 problems either way, and every alpha swaps several
+  passes for several failures. There is no reliable gain, so keep the original.
+- **Why:** ExPO was proposed for an SFT -> DPO step. The base -> instruct step of Qwen2.5-Coder bundles
+  SFT and RL, and extrapolating past it overshoots, worst on the smallest model. A small alpha may work
+  when the base -> instruct step is a single, smaller step.
+- **7B:** not run yet.
+- **Phone builds:** the q4_K_M checks did not happen, because Ollama could not quantize these GGUFs and
+  an older version of the code silently fell back to fp16. That is fixed: `deploy-check` now refuses to
+  measure an unquantized model under a quantized name.
+
+**Harness bug found and fixed:** Qwen2.5-Coder-1.5B emits CRLF line endings, which defeated the
+code-fence regex. All saved runs were re-scored from their stored outputs with `tvashtr rescore`. Before
+the fix, the 1.5B control appeared to score 15% and ExPO appeared to gain 50 points. Treat an
+implausibly large gain as a harness bug until proven otherwise.
 
 Results in `results/` are raw JSONL, one row per problem, so every number can be re-checked.
 

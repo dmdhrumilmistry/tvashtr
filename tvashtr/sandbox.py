@@ -11,15 +11,24 @@ import sys
 import tempfile
 from dataclasses import dataclass
 
-CODE_BLOCK = re.compile(r"```(?:python|py|python3)?[ \t]*\n(.*?)```", re.S | re.I)
+CODE_BLOCK = re.compile(r"```(?:python|py|python3)?[ \t]*\r?\n(.*?)```", re.S | re.I)
+OPEN_FENCE = re.compile(r"^\s*```[\w+-]*[ \t]*$", re.M)
 
 
 def extract_code(text):
-    """Largest fenced code block, or the raw text if the model skipped fences."""
-    blocks = CODE_BLOCK.findall(text or "")
+    """Largest fenced code block, or the raw text if the model skipped fences.
+
+    Line endings are normalised first: some models emit CRLF, which would otherwise defeat the
+    fence regex. An unterminated block (output cut off before the closing fence) is also handled.
+    """
+    text = (text or "").replace("\r\n", "\n").replace("\r", "\n")
+    blocks = CODE_BLOCK.findall(text)
     if blocks:
         return max(blocks, key=len).strip("\n") + "\n"
-    return (text or "").strip("\n") + "\n"
+    m = OPEN_FENCE.search(text)
+    if m:  # opening fence without a closing one
+        text = text[m.end():]
+    return text.strip("\n") + "\n"
 
 
 @dataclass

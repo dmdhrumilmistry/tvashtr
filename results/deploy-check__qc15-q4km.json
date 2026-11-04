@@ -1,0 +1,62 @@
+{
+  "base": "qwen2.5-coder:1.5b-base-fp16",
+  "instruct": "qwen2.5-coder:1.5b-instruct-fp16",
+  "quantize": "q4_K_M",
+  "alpha": 0.3,
+  "runs": {
+    "control": {
+      "dev": {
+        "model": "qc15:control-q4km",
+        "strategy": "direct",
+        "part": "dev",
+        "n": 82,
+        "pass@1": 0.122,
+        "avg_calls": 1.0,
+        "avg_output_tokens": 114,
+        "avg_seconds": 2.6
+      },
+      "test": {
+        "model": "qc15:control-q4km",
+        "strategy": "direct",
+        "part": "test",
+        "n": 82,
+        "pass@1": 0.1585,
+        "avg_calls": 1.0,
+        "avg_output_tokens": 127,
+        "avg_seconds": 2.8
+      }
+    },
+    "expo-0.3": {
+      "dev": {
+        "model": "qc15:expo-0.3-q4km",
+        "strategy": "direct",
+        "part": "dev",
+        "n": 82,
+        "pass@1": 0.6707,
+        "avg_calls": 1.0,
+        "avg_output_tokens": 157,
+        "avg_seconds": 3.6
+      },
+      "test": {
+        "model": "qc15:expo-0.3-q4km",
+        "strategy": "direct",
+        "part": "test",
+        "n": 82,
+        "pass@1": 0.6585,
+        "avg_calls": 1.0,
+        "avg_output_tokens": 146,
+        "avg_seconds": 3.3
+      }
+    }
+  },
+  "files": {
+    "control": {
+      "path": "D:\\models\\mobile\\qc15-control-q4km.gguf",
+      "MB": 2950
+    },
+    "expo-0.3": {
+      "path": "D:\\models\\mobile\\qc15-expo-0.3-q4km.gguf",
+      "MB": 2950
+    }
+  }
+}
