@@ -60,6 +60,16 @@ def main():
     w.add_argument("--limit", type=int)
     w.add_argument("--workers", type=int, default=2)
 
+    dc = sub.add_parser("deploy-check", help="score control vs variant at the shipping quantization; export GGUFs")
+    dc.add_argument("--base", required=True)
+    dc.add_argument("--instruct", required=True)
+    dc.add_argument("--prefix", required=True)
+    dc.add_argument("--alpha", type=float, default=0.0, help="0 = control only")
+    dc.add_argument("--quantize", default="q4_K_M")
+    dc.add_argument("--workdir", default="models")
+    dc.add_argument("--export", help="directory to copy the quantized GGUFs into (for mobile apps)")
+    dc.add_argument("--limit", type=int)
+
     c = sub.add_parser("compare", help="per-problem diff of two results/*.jsonl runs (A = baseline)")
     c.add_argument("a")
     c.add_argument("b")
@@ -102,6 +112,10 @@ def main():
         alphas = [float(x) for x in a.alphas.split(",")]
         print(json.dumps(sweep.sweep(a.base, a.instruct, alphas, a.prefix, a.quantize or None, a.workdir,
                                      a.limit, a.workers), indent=2))
+    elif a.cmd == "deploy-check":
+        from . import sweep
+        print(json.dumps(sweep.deploy_check(a.base, a.instruct, a.prefix, a.alpha or None, a.quantize,
+                                            a.workdir, a.export, a.limit), indent=2))
     elif a.cmd == "compare":
         from . import compare
         print(compare.compare(a.a, a.b, a.out))

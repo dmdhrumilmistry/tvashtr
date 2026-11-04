@@ -1,5 +1,6 @@
 """Controlled ExPO experiment: control vs alpha variants, selected on dev, confirmed on test."""
 import json
+import shutil
 import subprocess
 from pathlib import Path
 
@@ -49,4 +50,36 @@ def sweep(base, instruct, alphas, prefix, quantize="q8_0", workdir="models", lim
         report["test"][best]["pass@1"] - report["test"]["control"]["pass@1"], 4)
     bench.RESULTS.mkdir(exist_ok=True)
     (bench.RESULTS / f"expo-sweep__{prefix}.json").write_text(json.dumps(report, indent=2))
+    return report
+
+
+def deploy_check(base, instruct, prefix, alpha, quantize="q4_K_M", workdir="models", export_dir=None,
+                 limit=None, workers=2):
+    """Re-check a variant at the quantization it will ship with (e.g. q4_K_M for phones).
+
+    Low-bit quantization can erase a small weight-space gain, so the control and the variant are both
+    rebuilt at `quantize` and scored on the full HumanEval. The resulting GGUFs are exported for
+    llama.cpp-based mobile apps (PocketPal, ChatterUI, Ollama in Termux).
+    """
+    work = Path(workdir)
+    work.mkdir(parents=True, exist_ok=True)
+    qtag = quantize.lower().replace("_", "")
+    blob_b, blob_i = weights.ollama_blob(base), weights.ollama_blob(instruct)
+    models = {"control": (blob_i, f"{prefix}:control-{qtag}")}
+    if alpha:
+        out = work / f"{prefix}-expo-{alpha}.gguf"
+        weights.expo_gguf(blob_b, blob_i, out, alpha)
+        models[f"expo-{alpha}"] = (out, f"{prefix}:expo-{alpha}-{qtag}")
+    report = {"base": base, "instruct": instruct, "quantize": quantize, "alpha": alpha, "runs": {}, "files": {}}
+    for key, (src, tag) in models.items():
+        _create(src, tag, instruct, quantize, work)
+        report["runs"][key] = {part: bench.run(tag, "direct", part, limit, workers) for part in ("dev", "test")}
+        if export_dir:
+            dst = Path(export_dir) / f"{tag.replace(':', '-')}.gguf"
+            dst.parent.mkdir(parents=True, exist_ok=True)
+            shutil.copy2(weights.ollama_blob(tag), dst)
+            report["files"][key] = {"path": str(dst), "MB": round(dst.stat().st_size / 2**20)}
+    if alpha and models[f"expo-{alpha}"][0].exists():
+        models[f"expo-{alpha}"][0].unlink()
+    (bench.RESULTS / f"deploy-check__{prefix}-{qtag}.json").write_text(json.dumps(report, indent=2))
     return report
