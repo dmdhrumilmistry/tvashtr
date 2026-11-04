@@ -81,7 +81,12 @@ def run(model, strategy, part="test", limit=None, workers=2, params=None, tag=No
     out = RESULTS / f"{name}.jsonl"
     done = {}
     if out.exists():
-        done = {r["task_id"]: r for r in map(json.loads, out.read_text(encoding="utf-8").splitlines()) if r}
+        rows = [json.loads(l) for l in out.read_text(encoding="utf-8").splitlines() if l.strip()]
+        # rows that died on an infrastructure error (not a model failure) are retried on resume
+        ok_rows = [r for r in rows if not any(str(t).startswith("error:") for t in r.get("trace", []))]
+        if len(ok_rows) != len(rows):
+            out.write_text("".join(json.dumps(r) + "\n" for r in ok_rows), encoding="utf-8")
+        done = {r["task_id"]: r for r in ok_rows}
     fn, params = STRATEGIES[strategy], params or {}
 
     def one(p):

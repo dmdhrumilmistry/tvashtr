@@ -1,0 +1,10 @@
+{
+  "model": "qc15:control",
+  "strategy": "self_debug",
+  "part": "dev",
+  "n": 82,
+  "pass@1": 0.7317,
+  "avg_calls": 2.0,
+  "avg_output_tokens": 434,
+  "avg_seconds": 5.7
+}

@@ -1,0 +1,10 @@
+{
+  "model": "qc15:control",
+  "strategy": "s_star",
+  "part": "test",
+  "n": 82,
+  "pass@1": 0.7561,
+  "avg_calls": 8.4,
+  "avg_output_tokens": 2933,
+  "avg_seconds": 34.5
+}

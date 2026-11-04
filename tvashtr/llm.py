@@ -2,10 +2,13 @@
 import os
 import re
 import threading
+import time
 
 import requests
 
 THINK_RE = re.compile(r"<think>.*?</think>\s*", re.S)
+RETRIES = 4
+BACKOFF = (2, 5, 10, 20)
 
 
 def host():
@@ -44,10 +47,18 @@ class LLM:
             opts["seed"] = seed
         if stop:
             opts["stop"] = stop
-        r = requests.post(f"{self.base}/api/chat", timeout=self.timeout, json={
-            "model": self.model, "messages": messages, "stream": False, "options": opts,
-        })
-        r.raise_for_status()
+        payload = {"model": self.model, "messages": messages, "stream": False, "options": opts}
+        for attempt in range(RETRIES + 1):
+            try:
+                r = requests.post(f"{self.base}/api/chat", timeout=self.timeout, json=payload)
+                if r.status_code < 500 or attempt == RETRIES:
+                    r.raise_for_status()
+                    break
+            except (requests.ConnectionError, requests.Timeout):
+                if attempt == RETRIES:
+                    raise
+            # 5xx / dropped connection: usually a full request queue or a model reload; back off
+            time.sleep(BACKOFF[min(attempt, len(BACKOFF) - 1)])
         data = r.json()
         self.usage.add(data)
         return THINK_RE.sub("", data["message"].get("content", ""))

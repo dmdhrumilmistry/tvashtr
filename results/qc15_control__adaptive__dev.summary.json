@@ -1,0 +1,10 @@
+{
+  "model": "qc15:control",
+  "strategy": "adaptive",
+  "part": "dev",
+  "n": 82,
+  "pass@1": 0.7927,
+  "avg_calls": 5.88,
+  "avg_output_tokens": 1629,
+  "avg_seconds": 19.8
+}

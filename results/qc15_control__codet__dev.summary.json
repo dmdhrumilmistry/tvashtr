@@ -1,0 +1,10 @@
+{
+  "model": "qc15:control",
+  "strategy": "codet",
+  "part": "dev",
+  "n": 82,
+  "pass@1": 0.8049,
+  "avg_calls": 5.99,
+  "avg_output_tokens": 776,
+  "avg_seconds": 11.4
+}
