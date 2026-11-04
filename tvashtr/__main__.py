@@ -60,6 +60,11 @@ def main():
     w.add_argument("--limit", type=int)
     w.add_argument("--workers", type=int, default=2)
 
+    c = sub.add_parser("compare", help="per-problem diff of two results/*.jsonl runs (A = baseline)")
+    c.add_argument("a")
+    c.add_argument("b")
+    c.add_argument("--out")
+
     i = sub.add_parser("import")
     i.add_argument("--dir", required=True)
     i.add_argument("--name", required=True)
@@ -97,6 +102,9 @@ def main():
         alphas = [float(x) for x in a.alphas.split(",")]
         print(json.dumps(sweep.sweep(a.base, a.instruct, alphas, a.prefix, a.quantize or None, a.workdir,
                                      a.limit, a.workers), indent=2))
+    elif a.cmd == "compare":
+        from . import compare
+        print(compare.compare(a.a, a.b, a.out))
     elif a.cmd == "import":
         from . import weights
         weights.ollama_import(a.dir, a.name, a.quantize)
