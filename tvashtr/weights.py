@@ -310,7 +310,7 @@ def ollama_blob(model, models_dir=None):
     return Path(m.group(1))
 
 
-def ollama_create_gguf(gguf, name, template_from=None, quantize=None, num_ctx=8192):
+def ollama_create_gguf(gguf, name, template_from=None, quantize=None, num_ctx=8192, modelfile_dir=None):
     """Register a GGUF with Ollama, reusing the source model's chat template when given."""
     tmpl = QWEN_TEMPLATE
     if template_from:
@@ -320,7 +320,9 @@ def ollama_create_gguf(gguf, name, template_from=None, quantize=None, num_ctx=81
         stops = re.findall(r"^PARAMETER stop .*$", shown, re.M)
         if t:
             tmpl = t.group(0) + "\n" + "\n".join(stops) + "\n"
-    mf = Path(gguf).with_suffix(".Modelfile")
+    mf_dir = Path(modelfile_dir) if modelfile_dir else Path(gguf).parent
+    mf_dir.mkdir(parents=True, exist_ok=True)
+    mf = mf_dir / (re.sub(r"[^\w.-]", "_", name) + ".Modelfile")
     mf.write_text(f"FROM {Path(gguf).resolve()}\n{tmpl}PARAMETER num_ctx {num_ctx}\n", encoding="utf-8")
     cmd = ["ollama", "create", name, "-f", str(mf)] + (["--quantize", quantize] if quantize else [])
     subprocess.run(cmd, check=True, env=os.environ.copy())

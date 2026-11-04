@@ -50,6 +50,16 @@ def main():
     g.add_argument("--donor", action="append", default=[], help="TAG_OR_PATH:BETA task vector to add")
     g.add_argument("--exclude", default="")
 
+    w = sub.add_parser("expo-sweep", help="controlled ExPO experiment: control + alphas, dev select, test confirm")
+    w.add_argument("--base", required=True)
+    w.add_argument("--instruct", required=True)
+    w.add_argument("--alphas", default="0.1,0.3,0.5")
+    w.add_argument("--prefix", required=True, help="Ollama name prefix for created models, e.g. qc7")
+    w.add_argument("--quantize", default="q8_0")
+    w.add_argument("--workdir", default="models")
+    w.add_argument("--limit", type=int)
+    w.add_argument("--workers", type=int, default=2)
+
     i = sub.add_parser("import")
     i.add_argument("--dir", required=True)
     i.add_argument("--name", required=True)
@@ -82,6 +92,11 @@ def main():
         if a.name:
             tmpl = None if Path(a.instruct).is_file() else a.instruct
             weights.ollama_create_gguf(out, a.name, template_from=tmpl, quantize=a.quantize)
+    elif a.cmd == "expo-sweep":
+        from . import sweep
+        alphas = [float(x) for x in a.alphas.split(",")]
+        print(json.dumps(sweep.sweep(a.base, a.instruct, alphas, a.prefix, a.quantize or None, a.workdir,
+                                     a.limit, a.workers), indent=2))
     elif a.cmd == "import":
         from . import weights
         weights.ollama_import(a.dir, a.name, a.quantize)
