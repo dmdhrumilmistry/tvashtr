@@ -1,0 +1,10 @@
+{
+  "model": "qwen3-coder:30b",
+  "strategy": "adaptive",
+  "part": "dev",
+  "n": 4,
+  "pass@1": 1.0,
+  "avg_calls": 2.75,
+  "avg_output_tokens": 365,
+  "avg_seconds": 19.2
+}

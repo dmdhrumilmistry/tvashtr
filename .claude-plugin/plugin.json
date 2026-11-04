@@ -1,0 +1,13 @@
+{
+  "name": "tvashtr",
+  "version": "0.1.0",
+  "description": "Make local Ollama coding models measurably better without training: S*/CodeT/self-debug post-training enhancements, ExPO and task-vector weight updates, HumanEval autotuning, and an Ollama-compatible enhanced endpoint.",
+  "author": {
+    "name": "Dhrumil Mistry",
+    "url": "https://github.com/dmdhrumilmistry"
+  },
+  "homepage": "https://github.com/dmdhrumilmistry/tvashtr",
+  "repository": "https://github.com/dmdhrumilmistry/tvashtr",
+  "license": "Apache-2.0",
+  "keywords": ["ollama", "local-llm", "code-generation", "test-time-compute", "model-merging", "expo", "humaneval"]
+}

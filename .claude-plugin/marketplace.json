@@ -1,0 +1,17 @@
+{
+  "name": "tvashtr",
+  "owner": {
+    "name": "Dhrumil Mistry",
+    "url": "https://github.com/dmdhrumilmistry"
+  },
+  "description": "Tvashtr: make local Ollama coding models measurably better without training.",
+  "plugins": [
+    {
+      "name": "tvashtr",
+      "source": "./",
+      "description": "Make local Ollama coding models measurably better without training: post-training enhancements, training-free weight updates, benchmarking and an enhanced Ollama endpoint.",
+      "version": "0.1.0",
+      "license": "Apache-2.0"
+    }
+  ]
+}

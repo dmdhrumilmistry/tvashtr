@@ -1,0 +1,10 @@
+﻿[project]
+name = "tvashtr"
+version = "0.1.0"
+description = "Make local Ollama coding models measurably better without training: post-training enhancements and training-free weight updates"
+requires-python = ">=3.10"
+license = "Apache-2.0"
+dependencies = ["numpy>=1.26", "requests>=2.31"]
+
+[project.scripts]
+tvashtr = "tvashtr.__main__:main"
