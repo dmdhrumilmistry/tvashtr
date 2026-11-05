@@ -11,42 +11,34 @@ nav_order: 2
 
 ## Components
 
+**Online path** (serving requests):
+
 ```mermaid
-flowchart TB
-    subgraph Clients
-        C1[Continue / Cline]:::c
-        C2[Aider]:::c
-        C3[Open WebUI / curl]:::c
-        C4[Claude Code plugin<br/>skill + /tvashtr:* commands]:::c
-    end
-    subgraph Tvashtr["tvashtr (Python, numpy + requests only)"]
-        SV[server.py<br/>Ollama + OpenAI compatible endpoint]
-        RT[router.py<br/>task classifier + measured routes]
-        ST[strategies.py<br/>direct / plan / self_debug / codet / s_star / adaptive]
-        SB[sandbox.py<br/>run code, tests, output signatures]
-        KB[kb.py<br/>MITRE CWE, CAPEC, ATT&CK + BM25F]
-        SEC[secbench.py<br/>cot / sc5 / rag / rag_cot / rag_hyde]
-        BE[bench.py + secbench.py<br/>HumanEval, CyberMetric, CTIBench]
-        AT[autotune.py / sectune<br/>pick on dev, confirm on test]
-        WT[weights.py + sweep.py<br/>ExPO, graft, DARE on GGUF + safetensors]
-        CMP[compare.py / rescore.py<br/>per-problem diffs, re-scoring]
-    end
-    subgraph Local["Local machine"]
-        OL[(Ollama<br/>models in GGUF)]
-        FS[(results/ profiles/<br/>JSONL + summaries)]
-    end
-    C1 & C2 & C3 --> SV
-    C4 --> BE & AT & WT
-    SV --> RT --> ST & SEC
-    ST --> SB
-    SEC --> KB
-    ST & SEC --> OL
-    BE --> ST & SEC
-    BE --> FS
-    AT --> FS --> RT
-    WT -->|ollama create| OL
-    CMP --> FS
+flowchart LR
+    CL["Clients<br/>Continue, Aider,<br/>Open WebUI, curl"] --> SV["server.py<br/>Ollama + OpenAI API"]
+    SV --> RT["router.py<br/>classify task"]
+    RT -->|coding| ST["strategies.py<br/>S*, CodeT, self-debug"]
+    ST --> SB["sandbox.py<br/>run code + tests"]
+    RT -->|security| KB["kb.py<br/>MITRE CWE, CAPEC,<br/>ATT&CK + BM25F"]
+    ST --> OL[("Ollama<br/>GGUF models")]
+    KB --> OL
+    SV -->|everything else| OL
 ```
+
+**Offline path** (measuring and building):
+
+```mermaid
+flowchart LR
+    BE["bench.py / secbench.py<br/>HumanEval, CyberMetric,<br/>CTIBench"] --> RS[("results/<br/>per-problem JSONL")]
+    RS --> AT["autotune / sectune /<br/>router build"]
+    AT --> PR[("profiles/<br/>router.json")]
+    RS --> CMP["compare / rescore"]
+    WT["weights.py + sweep.py<br/>ExPO, graft, DARE"] -->|"ollama create"| OL[("Ollama")]
+    OL --> BE
+    PR -->|used by| SRV["server.py"]
+```
+
+The Claude Code plugin (skill plus `/tvashtr:*` commands) drives the offline path from chat.
 
 | Module | Responsibility |
 |---|---|

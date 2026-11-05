@@ -3,7 +3,8 @@
   themeVariables: {
     darkMode: true,
     background: "#120e29",
-    fontFamily: "Inter, system-ui, sans-serif",
+    fontFamily: "'Segoe UI', system-ui, -apple-system, Helvetica, Arial, sans-serif",
+    fontSize: "15px",
     primaryColor: "#221b45",
     primaryTextColor: "#f7e6bd",
     primaryBorderColor: "#f4b13c",
