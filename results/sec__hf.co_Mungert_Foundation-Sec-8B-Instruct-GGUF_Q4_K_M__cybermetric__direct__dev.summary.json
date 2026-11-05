@@ -1,0 +1,13 @@
+{
+  "model": "hf.co/Mungert/Foundation-Sec-8B-Instruct-GGUF:Q4_K_M",
+  "dataset": "cybermetric",
+  "strategy": "direct",
+  "part": "dev",
+  "n": 60,
+  "accuracy": 0.8167,
+  "unparsed": 0.0,
+  "refusal_rate": 0.0,
+  "avg_calls": 1.0,
+  "avg_output_tokens": 9,
+  "avg_seconds": 1.2
+}

@@ -1,0 +1,13 @@
+{
+  "model": "hf.co/Mungert/Foundation-Sec-8B-Instruct-GGUF:Q4_K_M",
+  "dataset": "cti-mcq",
+  "strategy": "sc5",
+  "part": "dev",
+  "n": 60,
+  "accuracy": 0.55,
+  "unparsed": 0.0,
+  "refusal_rate": 0.0,
+  "avg_calls": 5.58,
+  "avg_output_tokens": 492,
+  "avg_seconds": 9.2
+}

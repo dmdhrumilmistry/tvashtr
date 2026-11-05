@@ -39,6 +39,10 @@ It improves models in two ways and measures both on held-out problems against an
 - **Strong models barely gain.** This matches recent work showing that self-repair barely moves
   Qwen3-Coder ([doi 10.3390/ai7090353](https://doi.org/10.3390/ai7090353)).
 - **ExPO did not help any Qwen2.5-Coder size,** and it can destroy small models.
+- **Merging a security fine-tune into a coder did not give one model that is good at both.**
+  Grafting DeepHat-V1-7B onto Qwen2.5-Coder-7B-Instruct cost coding and kept none of DeepHat's
+  CWE-mapping gain. For cyber + coding, route: `qwen3-coder:30b` for code, `gpt-oss:20b` for security
+  ([details](#cyber--coding-in-one-model-weight-merging-no-training)).
 
 Benchmark: HumanEval, 164 problems, split deterministically into a **dev** half (82, used to pick
 strategies and alphas) and a **test** half (82, used only to report). Scoring uses the official hidden
@@ -116,13 +120,69 @@ Problems passed out of 82 on the dev half (alpha 0 is the unmodified instruct mo
 - **When it might still help:** checkpoint pairs separated by a single, small alignment step.
 - **The tool keeps the original when nothing beats it,** and alpha 0 is a valid result.
 
+### Security models (held-out)
+
+| Benchmark (test half) | Foundation-Sec-8B | qwen3:14b | gpt-oss:20b |
+|---|---|---|---|
+| CyberMetric-500 (250) | 81.6% | 90.4% | **90.8%** |
+| CTIBench CTI-MCQ (150) | 54.7% | **68.7%** | **68.7%** |
+| CTIBench CTI-RCM (100) | 59.0% (cot) | 55.0% | 60.0% direct, **63.0%** sc5 |
+| Refusal rate | 0% | 0% | 0% |
+
+### Cyber + coding in one model? Weight merging (no training)
+
+Can the security skill of a fine-tune be moved into a strong coder by arithmetic on weights alone?
+The donor is [DeepHat-V1-7B](https://huggingface.co/DeepHat/DeepHat-V1-7B), a security fine-tune of
+Qwen2.5-Coder-7B. Its task vector `DeepHat - base` was grafted onto Qwen2.5-Coder-7B-Instruct:
+`theta = instruct + beta * DARE(DeepHat - base)` (`python -m tvashtr graft`). Every variant was scored on
+the dev halves of all four benchmarks, direct answering:
+
+| Model (dev half) | HumanEval (82) | CyberMetric (250) | CTI-MCQ (150) | CTI-RCM (100) |
+|---|---|---|---|---|
+| Qwen2.5-Coder-7B-Instruct (control) | **91.5%** | 88.8% | 63.3% | 62.0% |
+| DeepHat-V1-7B (donor alone) | 84.1% | 85.2% | **69.3%** | **83.0%** |
+| graft beta 0.3 | 89.0% | **90.4%** | 63.3% | 64.0% |
+| graft beta 0.7 | 86.6% | 90.0% | 66.7% | 62.0% |
+| graft beta 1.0 | 85.4% | 90.0% | 64.0% | 61.0% |
+| graft beta 0.5, DARE 0.9 | 85.4% | 90.0% | 63.3% | 62.0% |
+| graft beta 1.0, DARE 0.9 | 86.6% | 89.6% | 64.0% | 64.0% |
+
+**Conclusion: no merge is worth shipping.**
+- **No variant keeps coding and gains real security skill.** Every graft costs 2-6 coding problems.
+  The +1 to +2 points on CyberMetric are within noise (3-4 questions of 250).
+- **DeepHat's large CWE-mapping gain (+21) does not transfer at any strength.** A per-question diff
+  shows why. In 9 of its 22 wins the instruct model answered the parent class CWE-119, and DeepHat
+  answered the specific child NVD assigns (CWE-787, CWE-121, CWE-120); likewise CWE-203 instead of
+  CWE-200. That is a labelling convention learned from NVD-style data, which may include these very
+  CVEs, not transferable security knowledge. The instruct model's own answer style wins inside a merge.
+- **DARE did not help.** Dropping 90% of the delta also dropped the skill, and coding still fell.
+- **The task vectors are nearly orthogonal** (cosine about 0.05 between `DeepHat - base` and
+  `instruct - base`), so this is not interference that a smarter merge rule would resolve.
+- **The skill can be reached without weights:** the MITRE retrieval strategies (`rag`, `rag_hyde`) and
+  an explicit "most specific CWE that NVD uses" instruction target the same gap.
+
+### Which model to use for cyber + coding
+
+No single local model measured here is best at both, so route by task. `tvashtr serve` with
+`model=tvashtr/auto` classifies each request and sends it to the right model and strategy:
+
+| Task | Model | Held-out score | Why |
+|---|---|---|---|
+| **Coding** | `qwen3-coder:30b` + `adaptive` | HumanEval **93.9%** | best coder measured; MoE with ~3B active parameters, runs on a 12 GB GPU + 32 GB RAM |
+| **Security knowledge, threat intel** | `gpt-oss:20b` | CyberMetric **90.8%**, CTI-MCQ **68.7%** | best or tied best; 0% refusals |
+| **CVE -> CWE mapping** | `gpt-oss:20b` + `sc5` (or DeepHat-V1-7B if NVD-style labels matter) | CTI-RCM **63.0%** | DeepHat scored 83% on dev but with possible training overlap; confirm on your own CVEs |
+| **One model only** | `qwen2.5-coder:7b-instruct` (unmodified) | HumanEval 84.2% held-out; CyberMetric 88.8%, CTI-MCQ 63.3%, CTI-RCM 62.0% dev | close to qwen3:14b on security, strong on code, fits 12 GB at q8 or lower |
+
+Only one 20-30B model fits in 12 GB of VRAM at a time, so the first request after switching task
+types waits a few seconds while Ollama swaps models.
+
 ### Which model to use where
 
 | Device | Recommendation |
 |---|---|
 | Phone (Android: PocketPal, ChatterUI, Ollama in Termux) | stock `qwen2.5-coder:1.5b` at q4_K_M (~1 GB, ~71%). On weaker phones, `qwen2.5-coder:0.5b` (~400 MB, ~50-54%). Test-time search is too slow on a phone. |
 | PC with 8-12 GB GPU | `tvashtr/qwen2.5-coder:1.5b` with S\* for about 7B-level accuracy at 1.5B memory, or plain 7B |
-| PC with 24 GB+ RAM | `qwen3-coder:30b`, plain `direct` |
+| PC with 24 GB+ RAM | `qwen3-coder:30b` for code, `gpt-oss:20b` for security, routed by `tvashtr/auto` |
 
 ## Install
 
@@ -280,6 +340,9 @@ them. The 1.5B result here, S\* reaching near-7B accuracy, is an instance of tha
 4. **Self-generated tests share the model's blind spots.** Most remaining failures pass the model's
    own tests.
 5. **Measure the noise floor.** At temperature 0 the same weights still varied by up to 3 problems.
+6. **Diff the wins before crediting a fine-tune.** DeepHat's +21 on CWE mapping was mostly choosing the
+   specific CWE that NVD assigns (CWE-787) over its parent (CWE-119), a labelling habit rather than
+   deeper knowledge, which is why it did not survive merging.
 
 ## Publishing a model so others can use it
 

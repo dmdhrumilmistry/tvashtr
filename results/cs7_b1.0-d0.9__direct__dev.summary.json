@@ -1,0 +1,10 @@
+{
+  "model": "cs7:b1.0-d0.9",
+  "strategy": "direct",
+  "part": "dev",
+  "n": 82,
+  "pass@1": 0.8659,
+  "avg_calls": 1.0,
+  "avg_output_tokens": 78,
+  "avg_seconds": 11.4
+}

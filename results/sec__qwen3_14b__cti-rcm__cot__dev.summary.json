@@ -1,0 +1,13 @@
+{
+  "model": "qwen3:14b",
+  "dataset": "cti-rcm",
+  "strategy": "cot",
+  "part": "dev",
+  "n": 60,
+  "accuracy": 0.5833,
+  "unparsed": 0.0,
+  "refusal_rate": 0.0,
+  "avg_calls": 1.0,
+  "avg_output_tokens": 74,
+  "avg_seconds": 2.6
+}

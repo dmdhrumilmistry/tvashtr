@@ -68,7 +68,29 @@ Why it is built this way:
 | ExPO on Qwen2.5-Coder 0.5B | hurts. Alpha 0.1: -10 problems; alpha 0.3 or above collapses the model |
 | ExPO on Qwen2.5-Coder 1.5B | within noise for every alpha |
 | ExPO on Qwen2.5-Coder 7B | alpha 0.1 identical to the original; larger alphas are worse |
-| Graft DeepHat-V1-7B (security fine-tune of Qwen2.5-Coder-7B) onto Qwen2.5-Coder-7B-Instruct | in progress: targets coding + cyber in one model |
+| Graft DeepHat-V1-7B (security fine-tune of Qwen2.5-Coder-7B) onto Qwen2.5-Coder-7B-Instruct | no variant worth shipping: every graft costs 2-6 coding problems, and DeepHat's CWE-mapping gain does not transfer |
+
+### Graft sweep (dev halves)
+
+| Model | HumanEval | CyberMetric | CTI-MCQ | CTI-RCM |
+|---|---|---|---|---|
+| Qwen2.5-Coder-7B-Instruct (control) | **91.5%** | 88.8% | 63.3% | 62.0% |
+| DeepHat-V1-7B alone | 84.1% | 85.2% | **69.3%** | **83.0%** |
+| beta 0.3 | 89.0% | **90.4%** | 63.3% | 64.0% |
+| beta 0.7 | 86.6% | 90.0% | 66.7% | 62.0% |
+| beta 1.0 | 85.4% | 90.0% | 64.0% | 61.0% |
+| beta 0.5, DARE 0.9 | 85.4% | 90.0% | 63.3% | 62.0% |
+| beta 1.0, DARE 0.9 | 86.6% | 89.6% | 64.0% | 64.0% |
+
+**Why the security skill did not transfer:**
+- **What DeepHat's gain actually is:** in 9 of its 22 CWE-mapping wins, the instruct model answered
+  the parent class CWE-119 and DeepHat answered the specific child that NVD assigns (CWE-787, CWE-121,
+  CWE-120). That is a labelling convention, possibly learned from these very CVEs, not deeper
+  knowledge. Inside a merge the instruct model's answer style wins.
+- **It is not interference:** the two task vectors are nearly orthogonal (cosine about 0.05), so
+  a different merge rule (TIES, DARE) has nothing to resolve. DARE 0.9 simply dropped the skill.
+- **What to do instead:** route CWE questions to the best measured model, or use the retrieval
+  strategies, which supply the same specificity from MITRE's catalogue.
 
 **Why ExPO did not help:** it was proposed for extrapolating a small preference step (SFT -> DPO).
 Qwen2.5-Coder's base -> instruct step bundles large-scale SFT and RL, so extrapolating past it

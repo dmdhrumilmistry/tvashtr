@@ -1,0 +1,13 @@
+{
+  "model": "qwen3:14b",
+  "dataset": "cybermetric",
+  "strategy": "sc5",
+  "part": "dev",
+  "n": 60,
+  "accuracy": 0.9333,
+  "unparsed": 0.0,
+  "refusal_rate": 0.0,
+  "avg_calls": 5.0,
+  "avg_output_tokens": 368,
+  "avg_seconds": 13.2
+}

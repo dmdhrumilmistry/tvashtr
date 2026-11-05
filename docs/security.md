@@ -81,7 +81,7 @@ sequenceDiagram
 |---|---|---|---|
 | CyberMetric-500 (250) | 81.6% | 90.4% | **90.8%** |
 | CTIBench CTI-MCQ (150) | 54.7% | **68.7%** | **68.7%** |
-| CTIBench CTI-RCM (100) | **59.0%** (cot) | 55.0% | see results |
+| CTIBench CTI-RCM (100) | 59.0% (cot) | 55.0% | 60.0% direct, **63.0%** sc5 |
 | Refusals | 0% | 0% | 0% |
 
 - **No model refused a legitimate security question,** so over-refusal is not the bottleneck.

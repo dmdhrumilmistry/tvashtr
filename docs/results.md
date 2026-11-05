@@ -44,7 +44,26 @@ All numbers come from `results/` in the repository: one JSON line per problem pl
 |---|---|---|---|
 | CyberMetric-500 (250) | 81.6% | 90.4% | **90.8%** |
 | CTI-MCQ (150) | 54.7% | **68.7%** | **68.7%** |
-| CTI-RCM (100) | **59.0%** (cot; 51.0% direct) | 55.0% | in progress |
+| CTI-RCM (100) | 59.0% (cot; 51.0% direct) | 55.0% | 60.0% direct, **63.0%** sc5 |
 | Refusal rate | 0% | 0% | 0% |
 
-Retrieval and routing results land in `results/scorecard.md` when the unified evaluation finishes.
+## Cyber + coding weight merge (dev halves)
+
+| Model | HumanEval | CyberMetric | CTI-MCQ | CTI-RCM |
+|---|---|---|---|---|
+| Qwen2.5-Coder-7B-Instruct (control) | **91.5%** | 88.8% | 63.3% | 62.0% |
+| DeepHat-V1-7B alone | 84.1% | 85.2% | **69.3%** | **83.0%** |
+| best graft (beta 0.3) | 89.0% | **90.4%** | 63.3% | 64.0% |
+
+No graft was worth shipping; full sweep and analysis on the [weights page](weights.html).
+
+## Recommendation for cyber + coding
+
+| Task | Model | Held-out |
+|---|---|---|
+| Coding | `qwen3-coder:30b` + adaptive | HumanEval 93.9% |
+| Security knowledge, threat intel | `gpt-oss:20b` | CyberMetric 90.8%, CTI-MCQ 68.7% |
+| CVE -> CWE mapping | `gpt-oss:20b` + sc5 | CTI-RCM 63.0% |
+| One model only | `qwen2.5-coder:7b-instruct`, unmodified | HumanEval 84.2% |
+
+`tvashtr serve` with `model=tvashtr/auto` routes each request to the right model.

@@ -1,0 +1,149 @@
+{"task_id": "mcq-4", "passed": true, "pred": "C", "gold": "C", "refused": false, "seconds": 0.3, "calls": 1, "prompt_tokens": 99, "output_tokens": 2, "trace": ["C"], "code": ""}
+{"task_id": "mcq-9", "passed": true, "pred": "D", "gold": "D", "refused": false, "seconds": 0.3, "calls": 1, "prompt_tokens": 111, "output_tokens": 2, "trace": ["D"], "code": ""}
+{"task_id": "mcq-54", "passed": true, "pred": "C", "gold": "C", "refused": false, "seconds": 0.3, "calls": 1, "prompt_tokens": 126, "output_tokens": 2, "trace": ["C"], "code": ""}
+{"task_id": "mcq-58", "passed": true, "pred": "C", "gold": "C", "refused": false, "seconds": 0.2, "calls": 1, "prompt_tokens": 97, "output_tokens": 2, "trace": ["C"], "code": ""}
+{"task_id": "mcq-36", "passed": true, "pred": "C", "gold": "C", "refused": false, "seconds": 0.6, "calls": 1, "prompt_tokens": 96, "output_tokens": 7, "trace": ["C. Long-term RAT installation"], "code": ""}
+{"task_id": "mcq-66", "passed": true, "pred": "C", "gold": "C", "refused": false, "seconds": 0.4, "calls": 1, "prompt_tokens": 84, "output_tokens": 2, "trace": ["C"], "code": ""}
+{"task_id": "mcq-88", "passed": true, "pred": "C", "gold": "C", "refused": false, "seconds": 0.3, "calls": 1, "prompt_tokens": 109, "output_tokens": 2, "trace": ["C"], "code": ""}
+{"task_id": "mcq-129", "passed": true, "pred": "B", "gold": "B", "refused": false, "seconds": 0.4, "calls": 1, "prompt_tokens": 97, "output_tokens": 2, "trace": ["B"], "code": ""}
+{"task_id": "mcq-93", "passed": true, "pred": "A", "gold": "A", "refused": false, "seconds": 0.4, "calls": 1, "prompt_tokens": 117, "output_tokens": 2, "trace": ["A"], "code": ""}
+{"task_id": "mcq-149", "passed": true, "pred": "C", "gold": "C", "refused": false, "seconds": 0.3, "calls": 1, "prompt_tokens": 98, "output_tokens": 2, "trace": ["C"], "code": ""}
+{"task_id": "mcq-159", "passed": false, "pred": "A", "gold": "D", "refused": false, "seconds": 0.3, "calls": 1, "prompt_tokens": 94, "output_tokens": 2, "trace": ["A"], "code": ""}
+{"task_id": "mcq-165", "passed": true, "pred": "B", "gold": "B", "refused": false, "seconds": 0.4, "calls": 1, "prompt_tokens": 96, "output_tokens": 2, "trace": ["B"], "code": ""}
+{"task_id": "mcq-172", "passed": true, "pred": "B", "gold": "B", "refused": false, "seconds": 0.4, "calls": 1, "prompt_tokens": 108, "output_tokens": 2, "trace": ["B"], "code": ""}
+{"task_id": "mcq-191", "passed": true, "pred": "C", "gold": "C", "refused": false, "seconds": 0.4, "calls": 1, "prompt_tokens": 134, "output_tokens": 2, "trace": ["C"], "code": ""}
+{"task_id": "mcq-185", "passed": false, "pred": "A", "gold": "C", "refused": false, "seconds": 0.4, "calls": 1, "prompt_tokens": 91, "output_tokens": 2, "trace": ["A"], "code": ""}
+{"task_id": "mcq-237", "passed": true, "pred": "C", "gold": "C", "refused": false, "seconds": 0.3, "calls": 1, "prompt_tokens": 122, "output_tokens": 2, "trace": ["C"], "code": ""}
+{"task_id": "mcq-254", "passed": true, "pred": "D", "gold": "D", "refused": false, "seconds": 0.3, "calls": 1, "prompt_tokens": 101, "output_tokens": 2, "trace": ["D"], "code": ""}
+{"task_id": "mcq-282", "passed": false, "pred": "D", "gold": "B", "refused": false, "seconds": 0.3, "calls": 1, "prompt_tokens": 125, "output_tokens": 2, "trace": ["D"], "code": ""}
+{"task_id": "mcq-257", "passed": false, "pred": "D", "gold": "C", "refused": false, "seconds": 0.4, "calls": 1, "prompt_tokens": 88, "output_tokens": 2, "trace": ["D"], "code": ""}
+{"task_id": "mcq-303", "passed": true, "pred": "A", "gold": "A", "refused": false, "seconds": 0.4, "calls": 1, "prompt_tokens": 121, "output_tokens": 2, "trace": ["A"], "code": ""}
+{"task_id": "mcq-294", "passed": true, "pred": "C", "gold": "C", "refused": false, "seconds": 0.4, "calls": 1, "prompt_tokens": 109, "output_tokens": 2, "trace": ["C"], "code": ""}
+{"task_id": "mcq-328", "passed": false, "pred": "B", "gold": "A", "refused": false, "seconds": 0.4, "calls": 1, "prompt_tokens": 100, "output_tokens": 2, "trace": ["B"], "code": ""}
+{"task_id": "mcq-330", "passed": true, "pred": "C", "gold": "C", "refused": false, "seconds": 0.4, "calls": 1, "prompt_tokens": 158, "output_tokens": 2, "trace": ["C"], "code": ""}
+{"task_id": "mcq-337", "passed": true, "pred": "C", "gold": "C", "refused": false, "seconds": 0.3, "calls": 1, "prompt_tokens": 91, "output_tokens": 2, "trace": ["C"], "code": ""}
+{"task_id": "mcq-367", "passed": false, "pred": "C", "gold": "B", "refused": false, "seconds": 0.3, "calls": 1, "prompt_tokens": 117, "output_tokens": 2, "trace": ["C"], "code": ""}
+{"task_id": "mcq-374", "passed": true, "pred": "C", "gold": "C", "refused": false, "seconds": 0.3, "calls": 1, "prompt_tokens": 110, "output_tokens": 2, "trace": ["C"], "code": ""}
+{"task_id": "mcq-382", "passed": true, "pred": "C", "gold": "C", "refused": false, "seconds": 0.5, "calls": 1, "prompt_tokens": 99, "output_tokens": 5, "trace": ["C. Rocke"], "code": ""}
+{"task_id": "mcq-400", "passed": false, "pred": "D", "gold": "C", "refused": false, "seconds": 0.2, "calls": 1, "prompt_tokens": 90, "output_tokens": 2, "trace": ["D"], "code": ""}
+{"task_id": "mcq-413", "passed": true, "pred": "B", "gold": "B", "refused": false, "seconds": 0.4, "calls": 1, "prompt_tokens": 120, "output_tokens": 2, "trace": ["B"], "code": ""}
+{"task_id": "mcq-410", "passed": false, "pred": "B", "gold": "C", "refused": false, "seconds": 0.4, "calls": 1, "prompt_tokens": 110, "output_tokens": 2, "trace": ["B"], "code": ""}
+{"task_id": "mcq-472", "passed": true, "pred": "A", "gold": "A", "refused": false, "seconds": 0.4, "calls": 1, "prompt_tokens": 111, "output_tokens": 2, "trace": ["A"], "code": ""}
+{"task_id": "mcq-446", "passed": false, "pred": "D", "gold": "B", "refused": false, "seconds": 0.4, "calls": 1, "prompt_tokens": 89, "output_tokens": 2, "trace": ["D"], "code": ""}
+{"task_id": "mcq-475", "passed": false, "pred": "D", "gold": "C", "refused": false, "seconds": 0.3, "calls": 1, "prompt_tokens": 137, "output_tokens": 2, "trace": ["D"], "code": ""}
+{"task_id": "mcq-480", "passed": false, "pred": "B", "gold": "D", "refused": false, "seconds": 0.3, "calls": 1, "prompt_tokens": 106, "output_tokens": 2, "trace": ["B"], "code": ""}
+{"task_id": "mcq-490", "passed": true, "pred": "A", "gold": "A", "refused": false, "seconds": 0.3, "calls": 1, "prompt_tokens": 109, "output_tokens": 2, "trace": ["A"], "code": ""}
+{"task_id": "mcq-509", "passed": false, "pred": "A", "gold": "C", "refused": false, "seconds": 0.3, "calls": 1, "prompt_tokens": 86, "output_tokens": 2, "trace": ["A"], "code": ""}
+{"task_id": "mcq-533", "passed": true, "pred": "B", "gold": "B", "refused": false, "seconds": 0.3, "calls": 1, "prompt_tokens": 119, "output_tokens": 2, "trace": ["B"], "code": ""}
+{"task_id": "mcq-552", "passed": true, "pred": "C", "gold": "C", "refused": false, "seconds": 0.2, "calls": 1, "prompt_tokens": 128, "output_tokens": 2, "trace": ["C"], "code": ""}
+{"task_id": "mcq-542", "passed": true, "pred": "C", "gold": "C", "refused": false, "seconds": 0.7, "calls": 1, "prompt_tokens": 97, "output_tokens": 6, "trace": ["C. Turla"], "code": ""}
+{"task_id": "mcq-583", "passed": true, "pred": "B", "gold": "B", "refused": false, "seconds": 0.2, "calls": 1, "prompt_tokens": 100, "output_tokens": 2, "trace": ["B"], "code": ""}
+{"task_id": "mcq-601", "passed": false, "pred": "B", "gold": "A", "refused": false, "seconds": 0.2, "calls": 1, "prompt_tokens": 102, "output_tokens": 2, "trace": ["B"], "code": ""}
+{"task_id": "mcq-570", "passed": false, "pred": "C", "gold": "A", "refused": false, "seconds": 0.7, "calls": 1, "prompt_tokens": 110, "output_tokens": 8, "trace": ["C. LuminousMoth"], "code": ""}
+{"task_id": "mcq-632", "passed": true, "pred": "B", "gold": "B", "refused": false, "seconds": 0.4, "calls": 1, "prompt_tokens": 106, "output_tokens": 2, "trace": ["B"], "code": ""}
+{"task_id": "mcq-648", "passed": false, "pred": "C", "gold": "D", "refused": false, "seconds": 0.4, "calls": 1, "prompt_tokens": 93, "output_tokens": 8, "trace": ["C. Privilege Escalation"], "code": ""}
+{"task_id": "mcq-618", "passed": true, "pred": "B", "gold": "B", "refused": false, "seconds": 0.9, "calls": 1, "prompt_tokens": 114, "output_tokens": 12, "trace": ["B. G0138: Andariel"], "code": ""}
+{"task_id": "mcq-693", "passed": true, "pred": "B", "gold": "B", "refused": false, "seconds": 0.3, "calls": 1, "prompt_tokens": 128, "output_tokens": 2, "trace": ["B"], "code": ""}
+{"task_id": "mcq-663", "passed": true, "pred": "D", "gold": "D", "refused": false, "seconds": 0.3, "calls": 1, "prompt_tokens": 83, "output_tokens": 2, "trace": ["D"], "code": ""}
+{"task_id": "mcq-716", "passed": true, "pred": "B", "gold": "B", "refused": false, "seconds": 0.3, "calls": 1, "prompt_tokens": 109, "output_tokens": 2, "trace": ["B"], "code": ""}
+{"task_id": "mcq-738", "passed": true, "pred": "B", "gold": "B", "refused": false, "seconds": 0.6, "calls": 1, "prompt_tokens": 109, "output_tokens": 6, "trace": ["B. OPC UA server"], "code": ""}
+{"task_id": "mcq-764", "passed": true, "pred": "B", "gold": "B", "refused": false, "seconds": 0.2, "calls": 1, "prompt_tokens": 104, "output_tokens": 2, "trace": ["B"], "code": ""}
+{"task_id": "mcq-753", "passed": true, "pred": "C", "gold": "C", "refused": false, "seconds": 0.5, "calls": 1, "prompt_tokens": 91, "output_tokens": 6, "trace": ["C. Stuxnet"], "code": ""}
+{"task_id": "mcq-779", "passed": true, "pred": "A", "gold": "A", "refused": false, "seconds": 0.3, "calls": 1, "prompt_tokens": 88, "output_tokens": 2, "trace": ["A"], "code": ""}
+{"task_id": "mcq-772", "passed": true, "pred": "B", "gold": "B", "refused": false, "seconds": 0.3, "calls": 1, "prompt_tokens": 129, "output_tokens": 2, "trace": ["B"], "code": ""}
+{"task_id": "mcq-782", "passed": true, "pred": "D", "gold": "D", "refused": false, "seconds": 0.3, "calls": 1, "prompt_tokens": 103, "output_tokens": 2, "trace": ["D"], "code": ""}
+{"task_id": "mcq-797", "passed": true, "pred": "B", "gold": "B", "refused": false, "seconds": 0.3, "calls": 1, "prompt_tokens": 108, "output_tokens": 2, "trace": ["B"], "code": ""}
+{"task_id": "mcq-816", "passed": true, "pred": "D", "gold": "D", "refused": false, "seconds": 0.3, "calls": 1, "prompt_tokens": 102, "output_tokens": 2, "trace": ["D"], "code": ""}
+{"task_id": "mcq-833", "passed": true, "pred": "B", "gold": "B", "refused": false, "seconds": 0.3, "calls": 1, "prompt_tokens": 91, "output_tokens": 2, "trace": ["B"], "code": ""}
+{"task_id": "mcq-842", "passed": false, "pred": "A", "gold": "B", "refused": false, "seconds": 0.3, "calls": 1, "prompt_tokens": 123, "output_tokens": 2, "trace": ["A"], "code": ""}
+{"task_id": "mcq-862", "passed": true, "pred": "D", "gold": "D", "refused": false, "seconds": 0.3, "calls": 1, "prompt_tokens": 102, "output_tokens": 2, "trace": ["D"], "code": ""}
+{"task_id": "mcq-896", "passed": true, "pred": "A", "gold": "A", "refused": false, "seconds": 0.3, "calls": 1, "prompt_tokens": 135, "output_tokens": 2, "trace": ["A"], "code": ""}
+{"task_id": "mcq-881", "passed": true, "pred": "D", "gold": "D", "refused": false, "seconds": 0.3, "calls": 1, "prompt_tokens": 94, "output_tokens": 2, "trace": ["D"], "code": ""}
+{"task_id": "mcq-904", "passed": true, "pred": "A", "gold": "A", "refused": false, "seconds": 0.3, "calls": 1, "prompt_tokens": 92, "output_tokens": 2, "trace": ["A"], "code": ""}
+{"task_id": "mcq-913", "passed": true, "pred": "B", "gold": "B", "refused": false, "seconds": 0.3, "calls": 1, "prompt_tokens": 115, "output_tokens": 2, "trace": ["B"], "code": ""}
+{"task_id": "mcq-977", "passed": true, "pred": "C", "gold": "C", "refused": false, "seconds": 0.4, "calls": 1, "prompt_tokens": 91, "output_tokens": 4, "trace": ["C. File"], "code": ""}
+{"task_id": "mcq-995", "passed": true, "pred": "D", "gold": "D", "refused": false, "seconds": 0.2, "calls": 1, "prompt_tokens": 92, "output_tokens": 2, "trace": ["D"], "code": ""}
+{"task_id": "mcq-1026", "passed": false, "pred": "A", "gold": "D", "refused": false, "seconds": 0.2, "calls": 1, "prompt_tokens": 110, "output_tokens": 2, "trace": ["A"], "code": ""}
+{"task_id": "mcq-983", "passed": true, "pred": "D", "gold": "D", "refused": false, "seconds": 0.8, "calls": 1, "prompt_tokens": 99, "output_tokens": 11, "trace": ["D. Programmable Logic Controller (PLC)"], "code": ""}
+{"task_id": "mcq-1050", "passed": false, "pred": "A", "gold": "C", "refused": false, "seconds": 0.3, "calls": 1, "prompt_tokens": 116, "output_tokens": 2, "trace": ["A"], "code": ""}
+{"task_id": "mcq-1061", "passed": false, "pred": "A", "gold": "D", "refused": false, "seconds": 0.3, "calls": 1, "prompt_tokens": 104, "output_tokens": 2, "trace": ["A"], "code": ""}
+{"task_id": "mcq-1064", "passed": false, "pred": "D", "gold": "A", "refused": false, "seconds": 0.3, "calls": 1, "prompt_tokens": 94, "output_tokens": 2, "trace": ["D"], "code": ""}
+{"task_id": "mcq-1066", "passed": false, "pred": "D", "gold": "A", "refused": false, "seconds": 0.3, "calls": 1, "prompt_tokens": 101, "output_tokens": 2, "trace": ["D"], "code": ""}
+{"task_id": "mcq-1127", "passed": false, "pred": "A", "gold": "C", "refused": false, "seconds": 0.3, "calls": 1, "prompt_tokens": 95, "output_tokens": 2, "trace": ["A"], "code": ""}
+{"task_id": "mcq-1111", "passed": true, "pred": "A", "gold": "A", "refused": false, "seconds": 0.3, "calls": 1, "prompt_tokens": 94, "output_tokens": 2, "trace": ["A"], "code": ""}
+{"task_id": "mcq-1150", "passed": true, "pred": "A", "gold": "A", "refused": false, "seconds": 0.3, "calls": 1, "prompt_tokens": 110, "output_tokens": 2, "trace": ["A"], "code": ""}
+{"task_id": "mcq-1140", "passed": true, "pred": "C", "gold": "C", "refused": false, "seconds": 0.3, "calls": 1, "prompt_tokens": 108, "output_tokens": 2, "trace": ["C"], "code": ""}
+{"task_id": "mcq-1178", "passed": true, "pred": "D", "gold": "D", "refused": false, "seconds": 0.3, "calls": 1, "prompt_tokens": 101, "output_tokens": 2, "trace": ["D"], "code": ""}
+{"task_id": "mcq-1189", "passed": false, "pred": "B", "gold": "C", "refused": false, "seconds": 0.3, "calls": 1, "prompt_tokens": 107, "output_tokens": 2, "trace": ["B"], "code": ""}
+{"task_id": "mcq-1238", "passed": true, "pred": "C", "gold": "C", "refused": false, "seconds": 0.3, "calls": 1, "prompt_tokens": 87, "output_tokens": 2, "trace": ["C"], "code": ""}
+{"task_id": "mcq-1233", "passed": true, "pred": "C", "gold": "C", "refused": false, "seconds": 0.3, "calls": 1, "prompt_tokens": 101, "output_tokens": 2, "trace": ["C"], "code": ""}
+{"task_id": "mcq-1278", "passed": false, "pred": "D", "gold": "C", "refused": false, "seconds": 0.3, "calls": 1, "prompt_tokens": 112, "output_tokens": 2, "trace": ["D"], "code": ""}
+{"task_id": "mcq-1295", "passed": false, "pred": "D", "gold": "C", "refused": false, "seconds": 0.2, "calls": 1, "prompt_tokens": 137, "output_tokens": 2, "trace": ["D"], "code": ""}
+{"task_id": "mcq-1270", "passed": false, "pred": "C", "gold": "B", "refused": false, "seconds": 0.7, "calls": 1, "prompt_tokens": 101, "output_tokens": 8, "trace": ["C. TERRACOTTA"], "code": ""}
+{"task_id": "mcq-1332", "passed": true, "pred": "C", "gold": "C", "refused": false, "seconds": 0.2, "calls": 1, "prompt_tokens": 101, "output_tokens": 2, "trace": ["C"], "code": ""}
+{"task_id": "mcq-1310", "passed": false, "pred": "C", "gold": "B", "refused": false, "seconds": 0.5, "calls": 1, "prompt_tokens": 86, "output_tokens": 7, "trace": ["C. PHENAKITE"], "code": ""}
+{"task_id": "mcq-1352", "passed": true, "pred": "B", "gold": "B", "refused": false, "seconds": 0.4, "calls": 1, "prompt_tokens": 104, "output_tokens": 2, "trace": ["B"], "code": ""}
+{"task_id": "mcq-1364", "passed": true, "pred": "A", "gold": "A", "refused": false, "seconds": 0.3, "calls": 1, "prompt_tokens": 96, "output_tokens": 2, "trace": ["A"], "code": ""}
+{"task_id": "mcq-1375", "passed": false, "pred": "B", "gold": "A", "refused": false, "seconds": 0.3, "calls": 1, "prompt_tokens": 102, "output_tokens": 2, "trace": ["B"], "code": ""}
+{"task_id": "mcq-1369", "passed": true, "pred": "D", "gold": "D", "refused": false, "seconds": 0.3, "calls": 1, "prompt_tokens": 90, "output_tokens": 2, "trace": ["D"], "code": ""}
+{"task_id": "mcq-1402", "passed": false, "pred": "D", "gold": "B", "refused": false, "seconds": 0.3, "calls": 1, "prompt_tokens": 94, "output_tokens": 2, "trace": ["D"], "code": ""}
+{"task_id": "mcq-1434", "passed": true, "pred": "C", "gold": "C", "refused": false, "seconds": 0.3, "calls": 1, "prompt_tokens": 121, "output_tokens": 2, "trace": ["C"], "code": ""}
+{"task_id": "mcq-1463", "passed": false, "pred": "A", "gold": "D", "refused": false, "seconds": 0.3, "calls": 1, "prompt_tokens": 87, "output_tokens": 2, "trace": ["A"], "code": ""}
+{"task_id": "mcq-1449", "passed": false, "pred": "C", "gold": "B", "refused": false, "seconds": 0.3, "calls": 1, "prompt_tokens": 144, "output_tokens": 2, "trace": ["C"], "code": ""}
+{"task_id": "mcq-1502", "passed": true, "pred": "C", "gold": "C", "refused": false, "seconds": 0.3, "calls": 1, "prompt_tokens": 92, "output_tokens": 2, "trace": ["C"], "code": ""}
+{"task_id": "mcq-1468", "passed": true, "pred": "C", "gold": "C", "refused": false, "seconds": 0.3, "calls": 1, "prompt_tokens": 100, "output_tokens": 2, "trace": ["C"], "code": ""}
+{"task_id": "mcq-1525", "passed": true, "pred": "C", "gold": "C", "refused": false, "seconds": 0.3, "calls": 1, "prompt_tokens": 101, "output_tokens": 2, "trace": ["C"], "code": ""}
+{"task_id": "mcq-1516", "passed": true, "pred": "D", "gold": "D", "refused": false, "seconds": 0.3, "calls": 1, "prompt_tokens": 87, "output_tokens": 2, "trace": ["D"], "code": ""}
+{"task_id": "mcq-1577", "passed": true, "pred": "C", "gold": "C", "refused": false, "seconds": 0.3, "calls": 1, "prompt_tokens": 118, "output_tokens": 2, "trace": ["C"], "code": ""}
+{"task_id": "mcq-1550", "passed": true, "pred": "B", "gold": "B", "refused": false, "seconds": 0.3, "calls": 1, "prompt_tokens": 99, "output_tokens": 2, "trace": ["B"], "code": ""}
+{"task_id": "mcq-1591", "passed": true, "pred": "D", "gold": "D", "refused": false, "seconds": 0.3, "calls": 1, "prompt_tokens": 100, "output_tokens": 2, "trace": ["D"], "code": ""}
+{"task_id": "mcq-1645", "passed": true, "pred": "C", "gold": "C", "refused": false, "seconds": 0.2, "calls": 1, "prompt_tokens": 111, "output_tokens": 2, "trace": ["C"], "code": ""}
+{"task_id": "mcq-1624", "passed": false, "pred": "B", "gold": "C", "refused": false, "seconds": 0.7, "calls": 1, "prompt_tokens": 87, "output_tokens": 8, "trace": ["B. Conferences and workshops."], "code": ""}
+{"task_id": "mcq-1658", "passed": true, "pred": "C", "gold": "C", "refused": false, "seconds": 0.2, "calls": 1, "prompt_tokens": 98, "output_tokens": 2, "trace": ["C"], "code": ""}
+{"task_id": "mcq-1697", "passed": true, "pred": "D", "gold": "D", "refused": false, "seconds": 0.3, "calls": 1, "prompt_tokens": 146, "output_tokens": 2, "trace": ["D"], "code": ""}
+{"task_id": "mcq-1710", "passed": true, "pred": "D", "gold": "D", "refused": false, "seconds": 0.3, "calls": 1, "prompt_tokens": 98, "output_tokens": 2, "trace": ["D"], "code": ""}
+{"task_id": "mcq-1743", "passed": false, "pred": "A", "gold": "B", "refused": false, "seconds": 0.3, "calls": 1, "prompt_tokens": 99, "output_tokens": 2, "trace": ["A"], "code": ""}
+{"task_id": "mcq-1717", "passed": true, "pred": "C", "gold": "C", "refused": false, "seconds": 0.3, "calls": 1, "prompt_tokens": 146, "output_tokens": 2, "trace": ["C"], "code": ""}
+{"task_id": "mcq-1786", "passed": true, "pred": "B", "gold": "B", "refused": false, "seconds": 0.2, "calls": 1, "prompt_tokens": 85, "output_tokens": 2, "trace": ["B"], "code": ""}
+{"task_id": "mcq-1813", "passed": true, "pred": "A", "gold": "A", "refused": false, "seconds": 0.3, "calls": 1, "prompt_tokens": 101, "output_tokens": 2, "trace": ["A"], "code": ""}
+{"task_id": "mcq-1824", "passed": true, "pred": "B", "gold": "B", "refused": false, "seconds": 0.3, "calls": 1, "prompt_tokens": 94, "output_tokens": 2, "trace": ["B"], "code": ""}
+{"task_id": "mcq-1845", "passed": false, "pred": "B", "gold": "C", "refused": false, "seconds": 0.3, "calls": 1, "prompt_tokens": 105, "output_tokens": 2, "trace": ["B"], "code": ""}
+{"task_id": "mcq-1834", "passed": true, "pred": "C", "gold": "C", "refused": false, "seconds": 0.3, "calls": 1, "prompt_tokens": 104, "output_tokens": 2, "trace": ["C"], "code": ""}
+{"task_id": "mcq-1912", "passed": true, "pred": "C", "gold": "C", "refused": false, "seconds": 0.3, "calls": 1, "prompt_tokens": 103, "output_tokens": 2, "trace": ["C"], "code": ""}
+{"task_id": "mcq-1875", "passed": false, "pred": "A", "gold": "C", "refused": false, "seconds": 0.3, "calls": 1, "prompt_tokens": 106, "output_tokens": 2, "trace": ["A"], "code": ""}
+{"task_id": "mcq-1933", "passed": true, "pred": "D", "gold": "D", "refused": false, "seconds": 0.3, "calls": 1, "prompt_tokens": 121, "output_tokens": 2, "trace": ["D"], "code": ""}
+{"task_id": "mcq-1926", "passed": false, "pred": "B", "gold": "C", "refused": false, "seconds": 0.5, "calls": 1, "prompt_tokens": 86, "output_tokens": 4, "trace": ["B. Integrity"], "code": ""}
+{"task_id": "mcq-1951", "passed": false, "pred": "A", "gold": "C", "refused": false, "seconds": 0.2, "calls": 1, "prompt_tokens": 84, "output_tokens": 2, "trace": ["A"], "code": ""}
+{"task_id": "mcq-1953", "passed": false, "pred": "A", "gold": "C", "refused": false, "seconds": 0.3, "calls": 1, "prompt_tokens": 119, "output_tokens": 2, "trace": ["A"], "code": ""}
+{"task_id": "mcq-1973", "passed": false, "pred": "A", "gold": "C", "refused": false, "seconds": 0.3, "calls": 1, "prompt_tokens": 95, "output_tokens": 2, "trace": ["A"], "code": ""}
+{"task_id": "mcq-1992", "passed": true, "pred": "C", "gold": "C", "refused": false, "seconds": 0.4, "calls": 1, "prompt_tokens": 88, "output_tokens": 2, "trace": ["C"], "code": ""}
+{"task_id": "mcq-2004", "passed": true, "pred": "C", "gold": "C", "refused": false, "seconds": 0.3, "calls": 1, "prompt_tokens": 103, "output_tokens": 2, "trace": ["C"], "code": ""}
+{"task_id": "mcq-2021", "passed": true, "pred": "B", "gold": "B", "refused": false, "seconds": 0.4, "calls": 1, "prompt_tokens": 114, "output_tokens": 2, "trace": ["B"], "code": ""}
+{"task_id": "mcq-2062", "passed": true, "pred": "C", "gold": "C", "refused": false, "seconds": 0.4, "calls": 1, "prompt_tokens": 88, "output_tokens": 2, "trace": ["C"], "code": ""}
+{"task_id": "mcq-2080", "passed": true, "pred": "C", "gold": "C", "refused": false, "seconds": 0.4, "calls": 1, "prompt_tokens": 102, "output_tokens": 2, "trace": ["C"], "code": ""}
+{"task_id": "mcq-2094", "passed": false, "pred": "A", "gold": "C", "refused": false, "seconds": 0.4, "calls": 1, "prompt_tokens": 131, "output_tokens": 2, "trace": ["A"], "code": ""}
+{"task_id": "mcq-2148", "passed": false, "pred": "A", "gold": "B", "refused": false, "seconds": 0.3, "calls": 1, "prompt_tokens": 77, "output_tokens": 2, "trace": ["A"], "code": ""}
+{"task_id": "mcq-2135", "passed": true, "pred": "A", "gold": "A", "refused": false, "seconds": 0.3, "calls": 1, "prompt_tokens": 104, "output_tokens": 2, "trace": ["A"], "code": ""}
+{"task_id": "mcq-2164", "passed": true, "pred": "C", "gold": "C", "refused": false, "seconds": 0.3, "calls": 1, "prompt_tokens": 115, "output_tokens": 2, "trace": ["C"], "code": ""}
+{"task_id": "mcq-2181", "passed": true, "pred": "B", "gold": "B", "refused": false, "seconds": 0.3, "calls": 1, "prompt_tokens": 110, "output_tokens": 2, "trace": ["B"], "code": ""}
+{"task_id": "mcq-2203", "passed": true, "pred": "D", "gold": "D", "refused": false, "seconds": 0.3, "calls": 1, "prompt_tokens": 101, "output_tokens": 2, "trace": ["D"], "code": ""}
+{"task_id": "mcq-2214", "passed": true, "pred": "C", "gold": "C", "refused": false, "seconds": 0.3, "calls": 1, "prompt_tokens": 120, "output_tokens": 2, "trace": ["C"], "code": ""}
+{"task_id": "mcq-2242", "passed": true, "pred": "B", "gold": "B", "refused": false, "seconds": 0.3, "calls": 1, "prompt_tokens": 122, "output_tokens": 2, "trace": ["B"], "code": ""}
+{"task_id": "mcq-2229", "passed": true, "pred": "C", "gold": "C", "refused": false, "seconds": 0.3, "calls": 1, "prompt_tokens": 85, "output_tokens": 2, "trace": ["C"], "code": ""}
+{"task_id": "mcq-2247", "passed": false, "pred": "C", "gold": "D", "refused": false, "seconds": 0.3, "calls": 1, "prompt_tokens": 91, "output_tokens": 2, "trace": ["C"], "code": ""}
+{"task_id": "mcq-2263", "passed": true, "pred": "C", "gold": "C", "refused": false, "seconds": 0.3, "calls": 1, "prompt_tokens": 91, "output_tokens": 2, "trace": ["C"], "code": ""}
+{"task_id": "mcq-2299", "passed": true, "pred": "B", "gold": "B", "refused": false, "seconds": 0.3, "calls": 1, "prompt_tokens": 102, "output_tokens": 2, "trace": ["B"], "code": ""}
+{"task_id": "mcq-2292", "passed": true, "pred": "B", "gold": "B", "refused": false, "seconds": 0.3, "calls": 1, "prompt_tokens": 90, "output_tokens": 2, "trace": ["B"], "code": ""}
+{"task_id": "mcq-2327", "passed": false, "pred": "A", "gold": "C", "refused": false, "seconds": 0.3, "calls": 1, "prompt_tokens": 87, "output_tokens": 2, "trace": ["A"], "code": ""}
+{"task_id": "mcq-2333", "passed": false, "pred": "A", "gold": "C", "refused": false, "seconds": 0.3, "calls": 1, "prompt_tokens": 103, "output_tokens": 2, "trace": ["A"], "code": ""}
+{"task_id": "mcq-2374", "passed": true, "pred": "C", "gold": "C", "refused": false, "seconds": 0.3, "calls": 1, "prompt_tokens": 91, "output_tokens": 2, "trace": ["C"], "code": ""}
+{"task_id": "mcq-2357", "passed": true, "pred": "D", "gold": "D", "refused": false, "seconds": 0.3, "calls": 1, "prompt_tokens": 86, "output_tokens": 2, "trace": ["D"], "code": ""}
+{"task_id": "mcq-2415", "passed": true, "pred": "B", "gold": "B", "refused": false, "seconds": 0.3, "calls": 1, "prompt_tokens": 108, "output_tokens": 2, "trace": ["B"], "code": ""}
+{"task_id": "mcq-2404", "passed": true, "pred": "A", "gold": "A", "refused": false, "seconds": 0.3, "calls": 1, "prompt_tokens": 114, "output_tokens": 2, "trace": ["A"], "code": ""}
+{"task_id": "mcq-2443", "passed": true, "pred": "B", "gold": "B", "refused": false, "seconds": 0.3, "calls": 1, "prompt_tokens": 97, "output_tokens": 2, "trace": ["B"], "code": ""}
+{"task_id": "mcq-2435", "passed": true, "pred": "D", "gold": "D", "refused": false, "seconds": 0.4, "calls": 1, "prompt_tokens": 94, "output_tokens": 2, "trace": ["D"], "code": ""}
+{"task_id": "mcq-2470", "passed": true, "pred": "C", "gold": "C", "refused": false, "seconds": 0.3, "calls": 1, "prompt_tokens": 99, "output_tokens": 2, "trace": ["C"], "code": ""}
+{"task_id": "mcq-2465", "passed": false, "pred": "D", "gold": "B", "refused": false, "seconds": 0.3, "calls": 1, "prompt_tokens": 86, "output_tokens": 2, "trace": ["D"], "code": ""}
+{"task_id": "mcq-2480", "passed": false, "pred": "B", "gold": "D", "refused": false, "seconds": 0.4, "calls": 1, "prompt_tokens": 110, "output_tokens": 2, "trace": ["B"], "code": ""}
+{"task_id": "mcq-2488", "passed": true, "pred": "D", "gold": "D", "refused": false, "seconds": 0.4, "calls": 1, "prompt_tokens": 120, "output_tokens": 2, "trace": ["D"], "code": ""}
+{"task_id": "mcq-2499", "passed": false, "pred": "B", "gold": "C", "refused": false, "seconds": 0.4, "calls": 1, "prompt_tokens": 95, "output_tokens": 9, "trace": ["B. Data integrity of requests and responses"], "code": ""}

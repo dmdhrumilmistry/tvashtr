@@ -1,0 +1,10 @@
+{
+  "model": "cs7:deephat",
+  "strategy": "direct",
+  "part": "dev",
+  "n": 82,
+  "pass@1": 0.8415,
+  "avg_calls": 1.0,
+  "avg_output_tokens": 150,
+  "avg_seconds": 22.0
+}

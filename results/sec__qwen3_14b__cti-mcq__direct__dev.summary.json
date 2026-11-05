@@ -1,0 +1,13 @@
+{
+  "model": "qwen3:14b",
+  "dataset": "cti-mcq",
+  "strategy": "direct",
+  "part": "dev",
+  "n": 60,
+  "accuracy": 0.6,
+  "unparsed": 0.0,
+  "refusal_rate": 0.0,
+  "avg_calls": 1.0,
+  "avg_output_tokens": 3,
+  "avg_seconds": 0.3
+}

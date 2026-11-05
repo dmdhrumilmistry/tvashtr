@@ -1,0 +1,13 @@
+{
+  "model": "cs7:b0.5-d0.9",
+  "dataset": "cti-rcm",
+  "strategy": "direct",
+  "part": "dev",
+  "n": 100,
+  "accuracy": 0.62,
+  "unparsed": 0.0,
+  "refusal_rate": 0.0,
+  "avg_calls": 1.0,
+  "avg_output_tokens": 6,
+  "avg_seconds": 1.0
+}
