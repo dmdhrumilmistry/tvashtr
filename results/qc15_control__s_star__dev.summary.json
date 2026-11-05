@@ -3,8 +3,8 @@
   "strategy": "s_star",
   "part": "dev",
   "n": 82,
-  "pass@1": 0.8415,
+  "pass@1": 0.8537,
   "avg_calls": 8.32,
-  "avg_output_tokens": 2513,
-  "avg_seconds": 29.3
+  "avg_output_tokens": 2536,
+  "avg_seconds": 29.5
 }

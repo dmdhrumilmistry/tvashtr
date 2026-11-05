@@ -3,8 +3,8 @@
   "strategy": "codet",
   "part": "dev",
   "n": 82,
-  "pass@1": 0.8049,
-  "avg_calls": 5.99,
-  "avg_output_tokens": 776,
+  "pass@1": 0.8171,
+  "avg_calls": 6.0,
+  "avg_output_tokens": 778,
   "avg_seconds": 11.4
 }

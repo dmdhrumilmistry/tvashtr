@@ -69,3 +69,29 @@ Strategies: `direct`, `plan`, `self_debug`, `codet`, `s_star`, `adaptive`. Param
   security boundary; set `TVASHTR_SANDBOX=docker` (Docker running) for untrusted workloads.
 * Strong models leave little headroom on HumanEval (qwen3-coder:30b is ~93% direct); gains show up
   most on smaller models and harder problems. Say so rather than overselling small deltas.
+
+## What has been measured (held-out HumanEval half, 82 problems)
+
+Use these as priors, then measure on the user's model:
+
+* **Small models:** Qwen2.5-Coder-1.5B with `s_star` goes from 70.7% to 80.5% (+8 problems) at about
+  8.5 calls per problem. `codet` gets most of that gain at about a third of the tokens. `plan` hurts
+  small models (-9 on dev). `self_debug` alone barely helps.
+* **Strong models:** qwen3-coder:30b with `adaptive` gains +1 problem, which is noise. Recommend
+  `direct`.
+* **ExPO on Qwen2.5-Coder (0.5B, 1.5B, 7B):** never beat the original; it collapses 0.5B at
+  alpha >= 0.3. Expect ExPO to help only for checkpoint pairs separated by a small alignment step.
+* **Noise floor:** about ±3 problems (about 3.5 pts) on an 82-problem half, even at temperature 0.
+  Never report a smaller delta as a gain.
+* **Phones:** recommend stock `qwen2.5-coder:1.5b` q4_K_M. Test-time search is too slow on-device.
+
+## Pitfalls already hit (check these before trusting a number)
+
+* **An implausibly large gain is a harness bug until proven otherwise.** Some models emit CRLF. The
+  extractor normalises it; run `rescore` on old results after any harness change.
+* **HTTP 500s from Ollama** (queue full with `OLLAMA_NUM_PARALLEL=1`) used to be scored as failures.
+  The client now retries, and a resumed `bench` re-runs errored rows. Check `trace` for `error:`.
+* **Ollama may refuse `--quantize` on GGUF imports.** `deploy-check` then stops rather than measuring
+  fp16 under a quantized name.
+* **Use `compare A.jsonl B.jsonl`** to report improved / regressed problems and failure types, not
+  just the pass rate.

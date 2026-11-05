@@ -1,6 +1,6 @@
-{
+﻿{
   "name": "tvashtr",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "description": "Make local Ollama coding models measurably better without training: S*/CodeT/self-debug post-training enhancements, ExPO and task-vector weight updates, HumanEval autotuning, and an Ollama-compatible enhanced endpoint.",
   "author": {
     "name": "Dhrumil Mistry",
