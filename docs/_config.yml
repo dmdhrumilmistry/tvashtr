@@ -1,0 +1,23 @@
+title: Tvashtr
+description: Make local Ollama models measurably better at coding and cyber security, without training.
+remote_theme: just-the-docs/just-the-docs@v0.10.1
+plugins:
+  - jekyll-remote-theme
+url: https://dmdhrumilmistry.github.io
+baseurl: /tvashtr
+color_scheme: tvashtr
+logo: "/assets/vajra.png"
+search_enabled: true
+heading_anchors: true
+mermaid:
+  version: "10.9.1"
+aux_links:
+  GitHub: https://github.com/dmdhrumilmistry/tvashtr
+  Hugging Face: https://huggingface.co/dmdhrumilmistry
+  Ollama: https://ollama.com/dmdhrumilmistry
+aux_links_new_tab: true
+back_to_top: true
+footer_content: "Apache-2.0. Model weights inherit their base models' licences."
+exclude:
+  - model-cards/
+

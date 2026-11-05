@@ -1,3 +1,8 @@
+---
+title: Security plan
+nav_order: 9
+---
+
 # Security enhancement plan (no retraining)
 
 Goal: make local models better at cyber-security work without changing their training. Keep every

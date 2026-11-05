@@ -43,7 +43,7 @@ def build(think=None):
             continue
         top = max(v[metric] for _, v in cands)
         n = max(v["n"] for _, v in cands)
-        near = [(k, v) for k, v in cands if v[metric] >= top - 1 / n]
+        near = [(k, v) for k, v in cands if v[metric] >= top - 1 / n - 1e-3]  # rounding-safe tie band
         (_, model, strategy, _), dev = min(near, key=lambda kv: kv[1]["avg_seconds"])
         test = runs[(bench, model, strategy, "test")]
         router[task] = {"model": model, "strategy": strategy, "dev": dev[metric], "test": test[metric],

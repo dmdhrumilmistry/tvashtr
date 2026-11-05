@@ -97,13 +97,15 @@ def main():
     ap = argparse.ArgumentParser()
     ap.add_argument("--user", required=True)
     ap.add_argument("--dry-run", action="store_true")
+    ap.add_argument("--only", help="comma-separated Ollama tags to publish, e.g. qc15:expo-0.1")
     a = ap.parse_args()
+    variants = [v for v in VARIANTS if not a.only or v[0] in a.only.split(",")]
     out = ROOT / "docs" / "model-cards"
     out.mkdir(parents=True, exist_ok=True)
     if not a.dry_run:
         from huggingface_hub import HfApi
         api = HfApi()
-    for tag, size, alpha, prefix in VARIANTS:
+    for tag, size, alpha, prefix in variants:
         repo = f"{a.user}/Qwen2.5-Coder-{size}-Instruct-ExPO-a{alpha}-GGUF"
         ollama_name = f"dmdhrumilmistry/qwen2.5-coder-expo:{size.lower()}-alpha{alpha}"
         text = card(tag, size, alpha, prefix, ollama_name, repo)

@@ -50,6 +50,16 @@ def main():
     g.add_argument("--donor", action="append", default=[], help="TAG_OR_PATH:BETA task vector to add")
     g.add_argument("--exclude", default="")
 
+    gr = sub.add_parser("graft", help="task arithmetic: target + beta * DARE(donor - base), donor in safetensors")
+    gr.add_argument("--base", required=True, help="Ollama tag or .gguf of the shared base, e.g. qwen2.5-coder:7b-base-fp16")
+    gr.add_argument("--target", required=True, help="Ollama tag or .gguf to graft onto, e.g. qwen2.5-coder:7b-instruct-fp16")
+    gr.add_argument("--donor", required=True, help="safetensors dir of a fine-tune of the same base, e.g. DeepHat-V1-7B")
+    gr.add_argument("--beta", type=float, default=0.5)
+    gr.add_argument("--dare", type=float, default=0.0, help="drop rate for DARE, e.g. 0.9; 0 = plain task arithmetic")
+    gr.add_argument("--out", required=True)
+    gr.add_argument("--name", help="Ollama model to create from the result")
+    gr.add_argument("--quantize")
+
     w = sub.add_parser("expo-sweep", help="controlled ExPO experiment: control + alphas, dev select, test confirm")
     w.add_argument("--base", required=True)
     w.add_argument("--instruct", required=True)
@@ -127,6 +137,18 @@ def main():
         out = weights.expo_gguf(resolve(a.base), resolve(a.instruct), a.out, a.alpha, donors, a.exclude or None)
         if a.name:
             tmpl = None if Path(a.instruct).is_file() else a.instruct
+            weights.ollama_create_gguf(out, a.name, template_from=tmpl, quantize=a.quantize)
+    elif a.cmd == "graft":
+        from pathlib import Path
+
+        from . import weights
+
+        def resolve(x):
+            return Path(x) if Path(x).is_file() else weights.ollama_blob(x)
+
+        out = weights.graft_gguf(resolve(a.base), resolve(a.target), a.donor, a.out, a.beta, a.dare)
+        if a.name:
+            tmpl = None if Path(a.target).is_file() else a.target
             weights.ollama_create_gguf(out, a.name, template_from=tmpl, quantize=a.quantize)
     elif a.cmd == "expo-sweep":
         from . import sweep

@@ -15,7 +15,7 @@ def tune(model, strategies, limit=None, workers=2):
     # best accuracy; among near-ties (within one problem) prefer the cheaper strategy
     n = max(d["n"] for d in dev.values())
     top = max(d["pass@1"] for d in dev.values())
-    near = [d for d in dev.values() if d["pass@1"] >= top - 1 / max(n, 1)]
+    near = [d for d in dev.values() if d["pass@1"] >= top - 1 / max(n, 1) - 1e-3]  # rounding-safe tie band
     best = min(near, key=lambda d: d["avg_output_tokens"])
     test = bench.run(model, best["strategy"], "test", limit, workers)
     test_direct = bench.run(model, "direct", "test", limit, workers)

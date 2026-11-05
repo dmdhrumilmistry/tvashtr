@@ -300,6 +300,66 @@ def expo_gguf(base_path, instruct_path, out_path, alpha, donors=(), exclude=None
     return out
 
 
+def qwen2_hf_name(gguf_name):
+    """GGUF tensor name -> Hugging Face (transformers) name for the Qwen2/Llama layout."""
+    fixed = {"token_embd.weight": "model.embed_tokens.weight", "output_norm.weight": "model.norm.weight",
+             "output.weight": "lm_head.weight"}
+    if gguf_name in fixed:
+        return fixed[gguf_name]
+    m = re.match(r"blk\.(\d+)\.(\w+)\.(weight|bias)$", gguf_name)
+    if not m:
+        return None
+    i, part, kind = m.groups()
+    sub = {"attn_norm": "input_layernorm", "ffn_norm": "post_attention_layernorm",
+           "attn_q": "self_attn.q_proj", "attn_k": "self_attn.k_proj", "attn_v": "self_attn.v_proj",
+           "attn_output": "self_attn.o_proj", "ffn_gate": "mlp.gate_proj", "ffn_up": "mlp.up_proj",
+           "ffn_down": "mlp.down_proj"}.get(part)
+    return f"model.layers.{i}.{sub}.{kind}" if sub else None
+
+
+def graft_gguf(base_path, target_path, donor_dir, out_path, beta=0.5, dare=0.0, seed=0, exclude=None):
+    """Cross-format task arithmetic: theta = target + beta * DARE(donor - base).
+
+    `base` and `target` are GGUFs (e.g. Qwen2.5-Coder-7B base and instruct fp16), `donor` is a
+    safetensors fine-tune of the same base (e.g. DeepHat-V1-7B). The donor's task vector is grafted onto
+    the target without converting the donor first. `dare` > 0 drops that fraction of delta entries at
+    random and rescales the rest by 1/(1-dare) (Yu et al. 2024, arXiv 2311.03099), which reduces
+    interference between the two task vectors. Output keeps the target's header (tokenizer, template).
+    """
+    base, target, donor = GGUF(base_path), GGUF(target_path), Shards(donor_dir)
+    skip = re.compile(exclude) if exclude else None
+    out = Path(out_path)
+    out.parent.mkdir(parents=True, exist_ok=True)
+    with open(target.path, "rb") as fi, open(out, "wb") as fo:
+        fo.write(fi.read(target.data_start))
+    grafted, missing = 0, []
+    with open(out, "r+b") as fo:
+        for ti, (name, (gtype, dims, off)) in enumerate(target.tensors.items()):
+            src = target.array(name)
+            n = src.shape[0]
+            fo.seek(target.data_start + off)
+            hf = qwen2_hf_name(name)
+            ok = (hf in donor.where and name in base.tensors and base.tensors[name][:2] == (gtype, dims)
+                  and int(np.prod(donor.where[hf][2]["shape"])) == n and not (skip and skip.search(name)))
+            if not ok:
+                missing.append(name)
+                fo.write(np.asarray(src).tobytes())
+                continue
+            bsrc = base.array(name)
+            ddt, draw = donor.flat(hf)
+            rng = np.random.default_rng([seed, ti])
+            for a in range(0, n, CHUNK):
+                b = min(n, a + CHUNK)
+                delta = _to_f32(ddt, draw, a, b) - _f32(bsrc, gtype, a, b)
+                if dare > 0:
+                    delta *= (rng.random(b - a, dtype=np.float32) >= dare) / (1.0 - dare)
+                fo.write(_back(_f32(src, gtype, a, b) + beta * delta, gtype).tobytes())
+            grafted += 1
+    print(f"graft beta={beta} dare={dare}: {grafted}/{len(target.tensors)} tensors grafted"
+          + (f", {len(missing)} kept from target: {missing[:4]}" if missing else "") + f" -> {out}")
+    return out
+
+
 def ollama_blob(model, models_dir=None):
     """Path of the GGUF weights blob behind an Ollama model tag (reads `ollama show --modelfile`)."""
     text = subprocess.run(["ollama", "show", model, "--modelfile"], capture_output=True, text=True,

@@ -225,7 +225,8 @@ def tune(model, datasets=("cybermetric", "cti-mcq", "cti-rcm"), strategies=("dir
         dev = {s: run(model, ds, s, "dev", dev_limit, workers, upstream) for s in strategies}
         top = max(d["accuracy"] for d in dev.values())
         n = max(d["n"] for d in dev.values())
-        near = [d for d in dev.values() if d["accuracy"] >= top - 1 / max(n, 1)]
+        # one-question tie band; the epsilon absorbs the 4-decimal rounding in summaries (38/60 -> 0.6333)
+        near = [d for d in dev.values() if d["accuracy"] >= top - 1 / max(n, 1) - 1e-3]
         best = min(near, key=lambda d: d["avg_output_tokens"])["strategy"]
         test = {s: run(model, ds, s, "test", None, workers, upstream) for s in dict.fromkeys(["direct", best])}
         report["datasets"][ds] = {"dev": dev, "best": best, "test": test,

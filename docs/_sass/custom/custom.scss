@@ -1,0 +1,102 @@
+// ---- Forge theme -------------------------------------------------------------------------------
+$gold: #f4b13c;
+$ember: #e5671e;
+$molten: linear-gradient(100deg, #ffd884 0%, #f4b13c 45%, #e5671e 100%);
+
+// ember glow behind the page, faint forge grid
+body {
+  background:
+    radial-gradient(1100px 520px at 85% -10%, rgba(229, 103, 30, 0.13), transparent 60%),
+    radial-gradient(900px 480px at -10% 10%, rgba(98, 80, 214, 0.16), transparent 60%),
+    #0d0a1c;
+  background-attachment: fixed;
+}
+.main-content-wrap {
+  background-image:
+    linear-gradient(rgba(255, 255, 255, 0.018) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255, 255, 255, 0.018) 1px, transparent 1px);
+  background-size: 32px 32px;
+}
+
+// headings: Space Grotesk with a molten gradient on the big ones
+h1, h2, h3, h4, .site-title {
+  font-family: "Space Grotesk", "Inter", system-ui, sans-serif;
+  letter-spacing: -0.01em;
+}
+.main-content h1, .main-content .fs-9 {
+  background: $molten;
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent !important;
+  font-weight: 700;
+}
+.main-content h2 {
+  padding-bottom: 0.35rem;
+  border-bottom: 1px solid rgba(244, 177, 60, 0.22);
+}
+.main-content h2::before {
+  content: "";
+  display: inline-block;
+  width: 0.5rem;
+  height: 0.5rem;
+  margin-right: 0.6rem;
+  transform: rotate(45deg) translateY(-2px);
+  background: $molten;
+  border-radius: 1px;
+}
+
+// sidebar: brand with the vajra, gold active marker
+.site-title { font-weight: 700; font-size: 1.35rem !important; color: #f7e6bd !important; }
+.site-logo { background-size: contain; background-position: left center; }
+.nav-list .nav-list-item .nav-list-link.active {
+  color: $gold;
+  background-image: linear-gradient(-90deg, rgba(244, 177, 60, 0.08), rgba(244, 177, 60, 0) 90%);
+  border-left: 2px solid $gold;
+}
+
+// buttons: forged gold
+.btn-primary {
+  background: $molten !important;
+  color: #1a1206 !important;
+  font-weight: 600;
+  border: 0;
+  box-shadow: 0 6px 24px rgba(229, 103, 30, 0.28);
+}
+.btn { border-radius: 10px; }
+
+// cards for tables, code and diagrams
+.main-content .table-wrapper, .main-content div.highlighter-rouge, .main-content pre.mermaid,
+.main-content .mermaid {
+  border: 1px solid #2a2350;
+  border-radius: 12px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.35), inset 0 1px 0 rgba(255, 255, 255, 0.03);
+}
+.main-content .table-wrapper { overflow: hidden; }
+.main-content th {
+  background: #1b1540;
+  color: #f7e6bd;
+  font-family: "Space Grotesk", sans-serif;
+  font-weight: 600;
+  border-bottom: 1px solid rgba(244, 177, 60, 0.35) !important;
+}
+.main-content td, .main-content th { border-color: #241d47 !important; }
+.main-content tr:hover td { background: rgba(244, 177, 60, 0.04); }
+.main-content .mermaid, .main-content pre.mermaid {
+  background: radial-gradient(600px 220px at 50% 0%, rgba(244, 177, 60, 0.06), transparent 70%), #120e29;
+  padding: 1.25rem;
+  text-align: center;
+}
+
+// quotes as callouts
+.main-content blockquote {
+  border-left: 3px solid $ember;
+  background: rgba(229, 103, 30, 0.06);
+  border-radius: 0 10px 10px 0;
+  padding: 0.75rem 1rem;
+  color: #e9dcc0;
+}
+
+// inline code and links
+.main-content code { color: #ffd38a; }
+.main-content a:not(.btn) { text-decoration-color: rgba(244, 177, 60, 0.35); text-underline-offset: 3px; }
+.main-content img { border-radius: 10px; }

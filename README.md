@@ -4,6 +4,8 @@
 > gods. This project does the same for open models: it makes the model you already have sharper
 > without retraining it.
 
+**Documentation with architecture diagrams: https://dmdhrumilmistry.github.io/tvashtr**
+
 Tvashtr makes a local Ollama coding model **measurably** better without fine-tuning. Nothing is
 trained, and none of your code is used as data. It ships as:
 
