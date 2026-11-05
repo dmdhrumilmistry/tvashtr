@@ -1,4 +1,4 @@
-"""Per-problem diff of two benchmark runs: what improved, what regressed, and why it fails."""
+﻿"""Per-problem diff of two benchmark runs: what improved, what regressed, and why it fails."""
 import json
 import re
 from collections import Counter
@@ -14,6 +14,8 @@ def load(path):
 
 def diagnose(problem, code):
     """Why a solution fails the hidden tests: wrong_answer, timeout, syntax_error, runtime:<Type>, no_code."""
+    if problem is None:  # non-code benchmark (e.g. security MCQ): only right/wrong is meaningful
+        return "wrong_answer"
     if not code or not code.strip():
         return "no_code"
     try:
@@ -35,12 +37,17 @@ def diagnose(problem, code):
 def compare(a_path, b_path, out=None):
     a, b = load(a_path), load(b_path)
     problems = {p["task_id"]: p for p in bench.load_humaneval()}
-    common = sorted(set(a) & set(b), key=lambda t: int(t.split("/")[1]))
+    common = sorted(set(a) & set(b), key=lambda t: (t.rsplit("/", 1)[0].rsplit("-", 1)[0],
+                                                       int(re.findall(r"\d+", t)[-1])))
+
+    def label(t):
+        p = problems.get(t)
+        return f"{t} `{p['entry_point']}`" if p else f"{t} (gold {a[t].get('gold')}, A={a[t].get('pred')}, B={b[t].get('pred')})"
     gained = [t for t in common if b[t]["passed"] and not a[t]["passed"]]
     lost = [t for t in common if a[t]["passed"] and not b[t]["passed"]]
     both_fail = [t for t in common if not a[t]["passed"] and not b[t]["passed"]]
-    why = {t: (diagnose(problems[t], a[t]["code"]) if t in gained or t in both_fail else None,
-               diagnose(problems[t], b[t]["code"]) if t in lost or t in both_fail else None)
+    why = {t: (diagnose(problems.get(t), a[t]["code"]) if t in gained or t in both_fail else None,
+               diagnose(problems.get(t), b[t]["code"]) if t in lost or t in both_fail else None)
            for t in gained + lost + both_fail}
 
     def avg(rows, k):
@@ -58,13 +65,13 @@ def compare(a_path, b_path, out=None):
              f"{avg(rb, 'output_tokens') - avg(ra, 'output_tokens'):+.0f} |",
              f"| avg seconds | {avg(ra, 'seconds'):.1f} | {avg(rb, 'seconds'):.1f} | {avg(rb, 'seconds') - avg(ra, 'seconds'):+.1f} |",
              "", f"## Improved ({len(gained)}): failed in A, pass in B", ""]
-    lines += [f"- {t} `{problems[t]['entry_point']}` - A failed with {why[t][0]}" for t in gained] or ["- none"]
+    lines += [f"- {label(t)} - A failed with {why[t][0]}" for t in gained] or ["- none"]
     lines += ["", f"## Regressed ({len(lost)}): pass in A, failed in B", ""]
-    lines += [f"- {t} `{problems[t]['entry_point']}` - B fails with {why[t][1]}" for t in lost] or ["- none"]
+    lines += [f"- {label(t)} - B fails with {why[t][1]}" for t in lost] or ["- none"]
     lines += ["", f"## Still failing in both ({len(both_fail)})", ""]
-    lines += [f"- {t} `{problems[t]['entry_point']}` - A: {why[t][0]}, B: {why[t][1]}" for t in both_fail] or ["- none"]
-    fa = Counter(diagnose(problems[t], a[t]["code"]) for t in common if not a[t]["passed"])
-    fb = Counter(diagnose(problems[t], b[t]["code"]) for t in common if not b[t]["passed"])
+    lines += [f"- {label(t)} - A: {why[t][0]}, B: {why[t][1]}" for t in both_fail] or ["- none"]
+    fa = Counter(diagnose(problems.get(t), a[t]["code"]) for t in common if not a[t]["passed"])
+    fb = Counter(diagnose(problems.get(t), b[t]["code"]) for t in common if not b[t]["passed"])
     lines += ["", "## Failure types", "", "| type | A | B |", "|---|---|---|"]
     lines += [f"| {k} | {fa.get(k, 0)} | {fb.get(k, 0)} |" for k in sorted(set(fa) | set(fb))] or ["| none | 0 | 0 |"]
     text = "\n".join(lines) + "\n"

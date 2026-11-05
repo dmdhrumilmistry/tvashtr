@@ -36,10 +36,17 @@ class Usage:
 
 
 class LLM:
-    def __init__(self, model, usage=None, num_ctx=8192, timeout=600, upstream=None):
+    def __init__(self, model, usage=None, num_ctx=8192, timeout=600, upstream=None, think=None):
+        """`think`: None = model default; False/True or "low"/"medium"/"high" for reasoning models.
+
+        TVASHTR_THINK sets the default (e.g. `false` to answer directly, `low` for gpt-oss)."""
         self.model, self.num_ctx, self.timeout = model, num_ctx, timeout
         self.usage = usage or Usage()
         self.base = (upstream or host()).rstrip("/")
+        env = os.environ.get("TVASHTR_THINK")
+        if think is None and env:
+            think = {"false": False, "true": True}.get(env.lower(), env.lower())
+        self.think = think
 
     def chat(self, messages, temperature=0.0, max_tokens=2048, seed=None, stop=None):
         opts = {"temperature": temperature, "num_ctx": self.num_ctx, "num_predict": max_tokens}
@@ -48,9 +55,15 @@ class LLM:
         if stop:
             opts["stop"] = stop
         payload = {"model": self.model, "messages": messages, "stream": False, "options": opts}
+        if self.think is not None:
+            payload["think"] = self.think
         for attempt in range(RETRIES + 1):
             try:
                 r = requests.post(f"{self.base}/api/chat", timeout=self.timeout, json=payload)
+                if r.status_code == 400 and "think" in payload and "think" in r.text.lower():
+                    payload.pop("think")  # model has no thinking switch; use its default
+                    self.think = None
+                    continue
                 if r.status_code < 500 or attempt == RETRIES:
                     r.raise_for_status()
                     break

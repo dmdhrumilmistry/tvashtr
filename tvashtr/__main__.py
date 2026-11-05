@@ -70,6 +70,19 @@ def main():
     dc.add_argument("--export", help="directory to copy the quantized GGUFs into (for mobile apps)")
     dc.add_argument("--limit", type=int)
 
+    sb = sub.add_parser("secbench", help="security benchmarks (CyberMetric, CTIBench) with PTE strategies")
+    sb.add_argument("--model", required=True)
+    sb.add_argument("--dataset", default="cybermetric", choices=["cybermetric", "cti-mcq", "cti-rcm"])
+    sb.add_argument("--strategy", default="direct", choices=["direct", "cot", "sc5"])
+    sb.add_argument("--part", default="test", choices=["dev", "test", "all"])
+    sb.add_argument("--limit", type=int)
+    sb.add_argument("--workers", type=int, default=2)
+
+    st = sub.add_parser("sectune", help="pick the best security strategy per dataset on dev, confirm on test")
+    st.add_argument("--model", required=True)
+    st.add_argument("--dev-limit", type=int)
+    st.add_argument("--workers", type=int, default=2)
+
     rs = sub.add_parser("rescore", help="re-score saved results/*.jsonl from stored output after a harness fix")
     rs.add_argument("paths", nargs="+")
 
@@ -119,6 +132,12 @@ def main():
         from . import sweep
         print(json.dumps(sweep.deploy_check(a.base, a.instruct, a.prefix, a.alpha or None, a.quantize,
                                             a.workdir, a.export, a.limit), indent=2))
+    elif a.cmd == "secbench":
+        from . import secbench
+        print(json.dumps(secbench.run(a.model, a.dataset, a.strategy, a.part, a.limit, a.workers), indent=2))
+    elif a.cmd == "sectune":
+        from . import secbench
+        print(json.dumps(secbench.tune(a.model, dev_limit=a.dev_limit, workers=a.workers), indent=2))
     elif a.cmd == "rescore":
         from . import rescore
         rescore.rescore(a.paths)
