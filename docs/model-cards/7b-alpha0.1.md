@@ -1,0 +1,49 @@
+---
+license: apache-2.0
+base_model: Qwen/Qwen2.5-Coder-7B-Instruct
+base_model_relation: merge
+tags: [gguf, ollama, code, qwen2.5-coder, expo, model-merging, research]
+---
+
+# Qwen2.5-Coder-7B-Instruct ExPO alpha=0.1 (research release)
+
+**Experimental. Did not beat the original model. Use the original Qwen2.5-Coder-7B-Instruct for
+real work.** Published so the result can be reproduced and built on.
+
+Produced with [Tvashtr](https://github.com/dmdhrumilmistry/tvashtr), a toolkit for improving local models without training. These weights
+are a training-free ExPO extrapolation (Zheng et al. 2024, arXiv 2404.16792) of the official Qwen
+checkpoints:
+
+`theta = theta_instruct + 0.1 * (theta_instruct - theta_base)`
+
+It was applied to Ollama's fp16 GGUFs of `qwen2.5-coder:7b-base` and `-instruct`. The file is fp16 GGUF.
+
+## Measured results
+
+Scored with the official HumanEval hidden tests, single greedy answer, against the unmodified
+instruct model prepared the same way. The noise floor is about +/-3 problems per 82-problem half.
+
+| Benchmark | Original | This model |
+|---|---|---|
+| HumanEval dev half (selection) | 91.5% (75/82) | 91.5% (75/82) |
+| HumanEval test half (held out) | 84.2% (69/82) | not measured |
+
+**Verdict:** within noise of the original, so there is no reliable gain. Across the sweep, larger
+alphas were worse at every size, and Qwen2.5-Coder-0.5B collapsed at alpha 0.3. The likely reason is
+that Qwen2.5-Coder's base -> instruct step bundles large-scale SFT and RL, whereas ExPO was proposed
+for extrapolating a small preference-optimization step. Full sweep, per-problem diffs and charts are
+in the [Tvashtr README](https://github.com/dmdhrumilmistry/tvashtr#training-free-weight-updates-expo).
+
+The gain that did hold up in the same study comes from test-time search, not weights: S\* lifts the
+original Qwen2.5-Coder-1.5B from 70.7% to 80.5% held-out. Use it via `tvashtr serve`.
+
+## Use
+
+```bash
+ollama run dmdhrumilmistry/qwen2.5-coder-expo:7b-alpha0.1
+ollama run hf.co/dmdhrumilmistry/Qwen2.5-Coder-7B-Instruct-ExPO-a0.1-GGUF:F16
+```
+
+## License
+
+Apache-2.0, inherited from Qwen2.5-Coder-7B.

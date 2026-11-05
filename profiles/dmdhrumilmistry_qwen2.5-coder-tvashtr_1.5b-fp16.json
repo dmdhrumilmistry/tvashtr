@@ -1,0 +1,92 @@
+{
+  "model": "dmdhrumilmistry/qwen2.5-coder-tvashtr:1.5b-fp16",
+  "strategy": "s_star",
+  "params": {},
+  "dev": {
+    "direct": {
+      "model": "qc15:control",
+      "strategy": "direct",
+      "part": "dev",
+      "n": 82,
+      "pass@1": 0.7195,
+      "avg_calls": 1.0,
+      "avg_output_tokens": 114,
+      "avg_seconds": 6.9
+    },
+    "plan": {
+      "model": "qc15:control",
+      "strategy": "plan",
+      "part": "dev",
+      "n": 82,
+      "pass@1": 0.6098,
+      "avg_calls": 2.0,
+      "avg_output_tokens": 550,
+      "avg_seconds": 6.3
+    },
+    "self_debug": {
+      "model": "qc15:control",
+      "strategy": "self_debug",
+      "part": "dev",
+      "n": 82,
+      "pass@1": 0.7317,
+      "avg_calls": 2.0,
+      "avg_output_tokens": 434,
+      "avg_seconds": 5.7
+    },
+    "codet": {
+      "model": "qc15:control",
+      "strategy": "codet",
+      "part": "dev",
+      "n": 82,
+      "pass@1": 0.8171,
+      "avg_calls": 6.0,
+      "avg_output_tokens": 778,
+      "avg_seconds": 11.4
+    },
+    "s_star": {
+      "model": "qc15:control",
+      "strategy": "s_star",
+      "part": "dev",
+      "n": 82,
+      "pass@1": 0.8537,
+      "avg_calls": 8.32,
+      "avg_output_tokens": 2536,
+      "avg_seconds": 29.5
+    },
+    "adaptive": {
+      "model": "qc15:control",
+      "strategy": "adaptive",
+      "part": "dev",
+      "n": 82,
+      "pass@1": 0.8049,
+      "avg_calls": 5.84,
+      "avg_output_tokens": 1625,
+      "avg_seconds": 19.7
+    }
+  },
+  "test": {
+    "chosen": {
+      "model": "qc15:control",
+      "strategy": "s_star",
+      "part": "test",
+      "n": 82,
+      "pass@1": 0.8049,
+      "avg_calls": 8.48,
+      "avg_output_tokens": 3048,
+      "avg_seconds": 35.7
+    },
+    "direct": {
+      "model": "qc15:control",
+      "strategy": "direct",
+      "part": "test",
+      "n": 82,
+      "pass@1": 0.7073,
+      "avg_calls": 1.0,
+      "avg_output_tokens": 124,
+      "avg_seconds": 1.5
+    }
+  },
+  "dev_gain_vs_direct": 0.1342,
+  "test_gain_vs_direct": 0.0976,
+  "note": "Tuned on qc15:control (Qwen2.5-Coder-1.5B-Instruct fp16); applies to the same weights."
+}
