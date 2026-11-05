@@ -99,6 +99,50 @@ def parse(item, text):
     return f"CWE-{m[-1]}" if m else None
 
 
+def context(item, hypothesis=""):
+    """Open-book context from the public MITRE knowledge bases (never benchmark data)."""
+    from . import kb
+    idx, views = kb.get()
+    if item["kind"] == "rcm":
+        query = f"{item['question']} {hypothesis}"
+        # NVD maps to the CWE-1003 view (93% of NVD labels); add a few unrestricted hits for the rest
+        nvd = idx.search(query, k=10, sources={"cwe"}, allow=set(views.get("1003", [])))
+        extra = [d for d in idx.search(query, k=6, sources={"cwe"}) if d["id"] not in {x["id"] for x in nvd}][:3]
+        return "Candidate CWEs from the MITRE CWE catalogue (ranked by relevance; may not include the answer):\n" \
+               + kb.fmt(nvd + extra, 260)
+    opts = " ".join(item.get("options", {}).values())
+    docs = idx.search(f"{item['question']} {opts}", k=5)
+    return "Reference entries from MITRE ATT&CK, CWE and CAPEC (may not all be relevant):\n" + kb.fmt(docs, 600)
+
+
+def hypothesis(llm, item):
+    """HyDE-style query expansion: the model names the weakness before retrieval."""
+    return llm.ask(f"In one sentence, name the root-cause software weakness (the coding mistake, not the impact) "
+                   f"behind this vulnerability:\n\n{item['question']}", system=SYSTEM, temperature=0.0,
+                   max_tokens=60 if llm.think is False else 1024)
+
+
+def with_context(item, ctx):
+    return {**item, "question": f"{ctx}\n\n{'Question' if item['kind'] == 'mcq' else 'CVE description'}: "
+                                f"{item['question']}"}
+
+
+def reasoned(llm, item, temperature, max_tokens, seed=None):
+    """Reason, then answer. If the reasoning never states a parseable final answer (e.g. it ends on a
+    paraphrase of an option), ask once for just the answer: two-stage extraction (Kojima et al. 2022)."""
+    p = prompt(item, True)
+    text = llm.ask(p, system=SYSTEM, temperature=temperature, max_tokens=max_tokens, seed=seed)
+    pred = parse(item, text)
+    if pred is None and not REFUSAL.search(text):
+        follow = ("Reply with only the letter (A, B, C or D) of your final answer." if item["kind"] == "mcq"
+                  else "Reply with only the CWE ID of your final answer, like CWE-79.")
+        again = llm.chat([{"role": "system", "content": SYSTEM}, {"role": "user", "content": p},
+                          {"role": "assistant", "content": text}, {"role": "user", "content": follow}],
+                         temperature=0.0, max_tokens=24 if llm.think is False else 1024)
+        pred, text = parse(item, again), f"{text}\n[extracted] {again}"
+    return pred, text
+
+
 def answer(llm, item, strategy):
     # thinking tokens count against num_predict, so only cap tightly when thinking is off
     short, long_ = (24, 700) if llm.think is False else (2048, 2048)
@@ -106,13 +150,24 @@ def answer(llm, item, strategy):
         text = llm.ask(prompt(item, False), system=SYSTEM, temperature=0.0, max_tokens=short)
         return parse(item, text), [text[-200:]]
     if strategy == "cot":
-        text = llm.ask(prompt(item, True), system=SYSTEM, temperature=0.0, max_tokens=long_)
-        return parse(item, text), [text[-200:]]
+        pred, text = reasoned(llm, item, 0.0, long_)
+        return pred, [text[-300:]]
+    if strategy in ("rag", "rag_cot", "rag_hyde"):
+        hyp = hypothesis(llm, item) if strategy == "rag_hyde" and item["kind"] == "rcm" else ""
+        aug = with_context(item, context(item, hyp))
+        if strategy == "rag":
+            text = llm.ask(prompt(aug, False), system=SYSTEM, temperature=0.0, max_tokens=short)
+            pred = parse(item, text)
+            if pred is None:  # fall back to reasoning-style extraction
+                pred, text = reasoned(llm, aug, 0.0, long_)
+            return pred, [text[-200:]]
+        pred, text = reasoned(llm, aug, 0.0, long_)
+        return pred, [(f"[hyp] {hyp[:150]} " if hyp else "") + text[-250:]]
     if strategy == "sc5":
         with ThreadPoolExecutor(max_workers=2) as ex:
-            texts = list(ex.map(lambda i: llm.ask(prompt(item, True), system=SYSTEM, temperature=0.7,
-                                                  max_tokens=long_, seed=i), range(5)))
-        votes = Counter(a for a in (parse(item, t) for t in texts) if a)
+            outs = list(ex.map(lambda i: reasoned(llm, item, 0.7, long_, seed=i), range(5)))
+        texts = [t for _, t in outs]
+        votes = Counter(p for p, _ in outs if p)
         best = votes.most_common(1)[0][0] if votes else None
         return best, [dict(votes), texts[0][-200:]]
     raise ValueError(strategy)

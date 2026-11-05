@@ -73,7 +73,7 @@ def main():
     sb = sub.add_parser("secbench", help="security benchmarks (CyberMetric, CTIBench) with PTE strategies")
     sb.add_argument("--model", required=True)
     sb.add_argument("--dataset", default="cybermetric", choices=["cybermetric", "cti-mcq", "cti-rcm"])
-    sb.add_argument("--strategy", default="direct", choices=["direct", "cot", "sc5"])
+    sb.add_argument("--strategy", default="direct", choices=["direct", "cot", "sc5", "rag", "rag_cot", "rag_hyde"])
     sb.add_argument("--part", default="test", choices=["dev", "test", "all"])
     sb.add_argument("--limit", type=int)
     sb.add_argument("--workers", type=int, default=2)
@@ -81,7 +81,12 @@ def main():
     st = sub.add_parser("sectune", help="pick the best security strategy per dataset on dev, confirm on test")
     st.add_argument("--model", required=True)
     st.add_argument("--dev-limit", type=int)
+    st.add_argument("--strategies", default="direct,cot,sc5")
+    st.add_argument("--datasets", default="cybermetric,cti-mcq,cti-rcm")
     st.add_argument("--workers", type=int, default=2)
+
+    rb = sub.add_parser("router", help="build profiles/router.json + results/scorecard.md from measured runs")
+    rb.add_argument("--think", default="{}", help='JSON model -> think setting, e.g. {"qwen3:14b": false}')
 
     rs = sub.add_parser("rescore", help="re-score saved results/*.jsonl from stored output after a harness fix")
     rs.add_argument("paths", nargs="+")
@@ -137,7 +142,11 @@ def main():
         print(json.dumps(secbench.run(a.model, a.dataset, a.strategy, a.part, a.limit, a.workers), indent=2))
     elif a.cmd == "sectune":
         from . import secbench
-        print(json.dumps(secbench.tune(a.model, dev_limit=a.dev_limit, workers=a.workers), indent=2))
+        print(json.dumps(secbench.tune(a.model, a.datasets.split(","), a.strategies.split(","), a.dev_limit,
+                                       a.workers), indent=2))
+    elif a.cmd == "router":
+        from . import router
+        print(json.dumps(router.build(json.loads(a.think)), indent=2))
     elif a.cmd == "rescore":
         from . import rescore
         rescore.rescore(a.paths)

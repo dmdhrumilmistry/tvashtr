@@ -14,12 +14,15 @@ from pathlib import Path
 
 import requests
 
-from . import sandbox
+import os
+
+from . import router, sandbox, secbench
 from .bench import docstring_tests
 from .llm import LLM, host
 from .strategies import STRATEGIES, Task
 
 PREFIX = "tvashtr/"
+AUTO = "tvashtr/auto"  # routes each request to the measured best model + strategy for its task
 PROFILES = Path(__file__).resolve().parent.parent / "profiles"
 OTHER_LANG = re.compile(r"\b(javascript|typescript|node\.?js|java|c\+\+|c#|golang|rust|ruby|php|swift|kotlin|"
                         r"bash|shell script|powershell|sql|html|css|react|vue|scala|haskell|lua|dart)\b", re.I)
@@ -69,8 +72,9 @@ def build_task(messages):
     return Task(prompt, entry, list(dict.fromkeys(tests)), "\n".join(prelude))
 
 
-def enhance(model, body):
-    strategy, params = profile(model)
+def enhance(model, body, strategy=None):
+    prof_strategy, params = profile(model)
+    strategy = strategy or prof_strategy
     opts = body.get("options") or {}
     llm = LLM(model, num_ctx=opts.get("num_ctx", 8192))
     t0 = time.time()
@@ -130,6 +134,8 @@ class Handler(BaseHTTPRequestHandler):
             tags = requests.get(host() + "/api/tags", timeout=30).json()
             models = tags.get("models", [])
             enhanced = [{**m, "name": PREFIX + m["name"], "model": PREFIX + m["model"]} for m in models]
+            if models:
+                enhanced.insert(0, {**models[0], "name": AUTO, "model": AUTO})
             if self.path.startswith("/v1"):
                 return self._send_json({"object": "list", "data": [
                     {"id": m["name"], "object": "model", "owned_by": "tvashtr"} for m in models + enhanced]})
@@ -151,6 +157,8 @@ class Handler(BaseHTTPRequestHandler):
         except ValueError:
             return self._proxy(raw)
         model = body.get("model", "")
+        if model == AUTO and (self.path.startswith("/api/chat") or self.path.startswith("/v1/chat/completions")):
+            return self._route(body)
         if not model.startswith(PREFIX):
             return self._proxy(raw)
         base = model[len(PREFIX):]
@@ -161,9 +169,37 @@ class Handler(BaseHTTPRequestHandler):
                 return self._respond_enhanced(model, base, body, openai)
         self._proxy(json.dumps(body).encode())
 
-    def _respond_enhanced(self, alias, base, body, openai):
+    def _route(self, body):
+        """tvashtr/auto: classify the request, then use the task's measured best model + strategy."""
+        routes = router.load()
+        msgs = body.get("messages") or [{}]
+        text = msgs[-1].get("content") if isinstance(msgs[-1].get("content"), str) else ""
+        task = router.classify(text, should_enhance(body))
+        cfg = routes.get(task) or routes.get("coding") or {}
+        target = cfg.get("model") or os.environ.get("TVASHTR_DEFAULT_MODEL", "qwen3:14b")
+        strategy = cfg.get("strategy", "direct")
+        body = {**body, "model": target}
+        if cfg.get("think") is not None and "think" not in body:
+            body["think"] = cfg["think"]
+        print(f"[tvashtr] auto -> {task}: {target} ({strategy})")
+        openai = self.path.startswith("/v1/chat/completions")
+        if task == "coding" and strategy in STRATEGIES and strategy != "direct" and should_enhance(body):
+            return self._respond_enhanced(AUTO, target, body, openai, strategy)
+        if task in ("cwe_mapping", "threat_intel", "security_knowledge") and strategy.startswith("rag") and text:
+            item = {"kind": "rcm" if task == "cwe_mapping" else "mcq", "question": text, "options": {}}
+            hyp = secbench.hypothesis(LLM(target, think=cfg.get("think")), item) if strategy == "rag_hyde" else ""
+            ctx = secbench.context(item, hyp)
+            note = ("Use the reference material below when it is relevant; it comes from the public MITRE "
+                    "knowledge bases. Prefer the most specific CWE or technique and cite its ID.\n\n" + ctx)
+            body["messages"] = [{"role": "system", "content": note}] + list(msgs)
+        elif strategy in ("cot", "rag_cot") or (strategy == "sc5" and task != "coding"):
+            body["messages"] = [{"role": "system", "content": "Reason step by step before giving the final answer."}] \
+                + list(msgs)
+        return self._proxy(json.dumps(body).encode())
+
+    def _respond_enhanced(self, alias, base, body, openai, strategy=None):
         try:
-            content, meta = enhance(base, body)
+            content, meta = enhance(base, body, strategy)
         except Exception as e:  # fall back to the plain model rather than failing the client
             print(f"[tvashtr] enhancement failed ({e}); passing through")
             return self._proxy(json.dumps(body).encode())
